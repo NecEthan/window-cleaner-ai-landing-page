@@ -17,7 +17,7 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-    <a href="https://buy.stripe.com/test_eVq9AT3Zl54C1IK5jyc7u00" class="btn-outline">Subscribe</a>
+    <a href="#subscription" class="btn-outline">Subscribe</a>
   </header>
 
   <!-- Hero Section -->
@@ -29,8 +29,8 @@
       optimization and automatic accounting — so you can focus on growing your business.
     </p>
     <div class="cta">
-      <a href="#subscribe" class="btn primary">Start Free Trial</a>
-      <a href="YOUR_STRIPE_LINK_HERE" target="_blank" class="btn secondary">Subscribe Now</a>
+      <a href="#subscription" class="btn primary">Start Free Trial</a>
+      <a href="#subscription" class="btn secondary">Subscribe Now</a>
     </div>
     <div class="app-preview">
       <img src="app-screenshot.png" alt="Mobile App Preview">
@@ -57,13 +57,68 @@
     </div>
   </section>
 
-  <!-- Pricing -->
-  <section id="pricing" class="pricing">
-    <h2>Simple Pricing</h2>
-    <p>One affordable monthly subscription — no hidden fees.</p>
-    <div class="price-box">
-      <h3>$29 / month</h3>
-      <a href="YOUR_STRIPE_LINK_HERE" target="_blank" class="btn primary">Subscribe with Stripe</a>
+  <!-- Subscription Plans -->
+  <section id="subscription" class="subscription">
+    <span class="tag">💰 Choose Your Plan</span>
+    <h2>Subscription Plans</h2>
+    <p>Choose the perfect plan for your window cleaning business</p>
+    
+    <div class="subscription-grid">
+      <!-- Basic Plan -->
+      <div class="subscription-card">
+        <div class="plan-header">
+          <h3>Basic</h3>
+          <div class="price">
+            <span class="currency">$</span>
+            <span class="amount">29</span>
+            <span class="period">/month</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <ul>
+            <li>✓ Route optimization for up to 50 customers</li>
+            <li>✓ Basic accounting & invoicing</li>
+            <li>✓ Mobile app access</li>
+            <li>✓ Email support</li>
+            <li>✓ Job scheduling</li>
+          </ul>
+        </div>
+        <div class="plan-action">
+          <a href="https://buy.stripe.com/test_eVq9AT3Zl54C1IK5jyc7u00" target="_blank" class="btn primary">Start Basic Plan</a>
+        </div>
+      </div>
+      
+      <!-- Business Plan -->
+      <div class="subscription-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="plan-header">
+          <h3>Business</h3>
+          <div class="price">
+            <span class="currency">$</span>
+            <span class="amount">59</span>
+            <span class="period">/month</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <ul>
+            <li>✓ Unlimited customers</li>
+            <li>✓ Advanced route optimization with AI</li>
+            <li>✓ Complete accounting suite</li>
+            <li>✓ Team management (up to 5 users)</li>
+            <li>✓ Priority phone & email support</li>
+            <li>✓ Custom reporting & analytics</li>
+            <li>✓ API access for integrations</li>
+            <li>✓ Advanced scheduling features</li>
+          </ul>
+        </div>
+        <div class="plan-action">
+          <a href="https://buy.stripe.com/test_business_plan_link" target="_blank" class="btn primary">Start Business Plan</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="subscription-footer">
+      <p>🔒 All plans include a 14-day free trial • Cancel anytime • No setup fees</p>
     </div>
   </section>
 
