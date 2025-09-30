@@ -17,9 +17,30 @@
     // Show/hide nav links and plan actions based on authentication status
     async function updateNavLinksAndActions() {
       let isLoggedIn = false;
+      let hasBusinessDetails = false;
       if (window.supabase) {
         const { data: sessionData } = await window.supabase.auth.getSession();
         isLoggedIn = !!sessionData.session;
+        if (isLoggedIn) {
+          // Check if user has saved business details (call your backend API)
+          try {
+            const accessToken = localStorage.getItem('access_token');
+            const response = await fetch('http://localhost:3000/api/user/business/details', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            const result = await response.json();
+            hasBusinessDetails = result && result.success && result.data;
+          } catch (e) {
+            hasBusinessDetails = false;
+          }
+        }
+      }
+      if (isLoggedIn && hasBusinessDetails) {
+        window.location.href = 'subscription.html';
+        return;
       }
       document.getElementById('registerLink').style.display = isLoggedIn ? 'none' : 'inline';
       document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
