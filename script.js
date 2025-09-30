@@ -65,6 +65,7 @@ authForm.addEventListener('submit', async (e) => {
             ? { email, password }
             : { email, password, name };
 
+        // Send registration data to Express backend
         const response = await fetch(`${API_BASE}${endpoint}`, {
             method: 'POST',
             headers: {

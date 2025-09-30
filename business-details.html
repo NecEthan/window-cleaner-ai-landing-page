@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Details - ClearRoute AI</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="navbar">
+  <a href="index.html" class="logo">ClearRoute AI</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="auth-section">
+    <h2>Business Details</h2>
+    <form id="businessDetailsForm">
+  <label for="businessName">Business Name</label>
+  <input type="text" id="businessName" placeholder="Business Name" required>
+
+  <label for="businessEmail">Business Email</label>
+  <input type="email" id="businessEmail" placeholder="Business Email" required>
+
+  <label for="businessPhone">Phone Number</label>
+  <input type="tel" id="businessPhone" placeholder="Phone Number" required>
+
+  <label for="businessAddress">Business Address</label>
+  <input type="text" id="businessAddress" placeholder="Business Address" required>
+
+  <label for="businessLogo">Business Logo</label>
+  <input type="file" id="businessLogo" accept="image/*">
+
+  <button type="submit" class="btn primary">Save Details</button>
+    </form>
+    <div id="businessDetailsMessage"></div>
+  </section>
+
+  <script>
+    document.getElementById('businessDetailsForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('businessDetailsMessage').textContent = 'Business details saved!';
+      // You can add logic here to send details to your backend or Supabase
+      setTimeout(function() {
+        window.location.href = "subscription.html";
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
