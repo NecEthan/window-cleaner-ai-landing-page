@@ -7,15 +7,48 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Initialize Supabase client
+    const SUPABASE_URL = 'https://oneixiqdahcwktickplx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uZWl4aXFkYWhjd2t0aWNrcGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzMTYwNDMsImV4cCI6MjA3Mzg5MjA0M30.xPljznEkOi9HTW0FugQ-ksLqUA91o7HTGRi069EN430';
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Show/hide nav links and plan actions based on authentication status
+    async function updateNavLinksAndActions() {
+      let isLoggedIn = false;
+      if (window.supabase) {
+        const { data: sessionData } = await window.supabase.auth.getSession();
+        isLoggedIn = !!sessionData.session;
+      }
+      document.getElementById('registerLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('signOutLink').style.display = isLoggedIn ? 'inline' : 'none';
+      // Hide register links in subscription plans
+      const planActions = document.querySelectorAll('.plan-action a[href="register.html"]');
+      planActions.forEach(a => { a.style.display = isLoggedIn ? 'none' : 'inline-block'; });
+    }
+    updateNavLinksAndActions();
+
+    document.getElementById('signOutBtn').addEventListener('click', async function() {
+      if (window.supabase) {
+        await window.supabase.auth.signOut();
+      }
+      localStorage.removeItem('access_token');
+      window.location.href = 'login.html';
+    });
+  </script>
   <!-- Navbar -->
   <header class="navbar">
   <a href="index.html" class="logo">ClearRoute AI</a>
     <nav>
-      <ul class="nav-links">
-  <li><a href="#features">Features</a></li>
-  <li><a href="#subscription">Pricing</a></li>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="register.html">Register</a></li>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#subscription">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li id="registerLink"><a href="register.html">Register</a></li>
+        <li id="loginLink"><a href="login.html">Sign In</a></li>
+        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn">Sign Out</button></li>
       </ul>
     </nav>
     <a href="#subscription" class="btn-outline">Subscribe</a>

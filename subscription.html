@@ -10,9 +10,11 @@
   <header class="navbar">
   <a href="index.html" class="logo">ClearRoute AI</a>
     <nav>
-      <ul class="nav-links">
+      <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
-        <li><a href="register.html">Register</a></li>
+        <li id="registerLink"><a href="register.html">Register</a></li>
+        <li id="loginLink"><a href="login.html">Sign In</a></li>
+        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn">Sign Out</button></li>
       </ul>
     </nav>
   </header>
@@ -41,7 +43,7 @@
           </ul>
         </div>
         <div class="plan-action">
-          <a href="https://buy.stripe.com/test_eVq9AT3Zl54C1IK5jyc7u00" target="_blank" class="btn primary">Buy Basic Plan</a>
+          <a id="basicStripeBtn" href="#" class="btn primary disabled" tabindex="-1">Buy Basic Plan</a>
         </div>
       </div>
       <div class="subscription-card featured">
@@ -67,7 +69,7 @@
           </ul>
         </div>
         <div class="plan-action">
-          <a href="https://buy.stripe.com/test_14AaEXgM7dB8fzA5jyc7u01" target="_blank" class="btn primary">Buy Business Plan</a>
+          <a id="businessStripeBtn" href="#" class="btn primary disabled" tabindex="-1">Buy Business Plan</a>
         </div>
       </div>
     </div>
@@ -75,5 +77,55 @@
       <p>🔒 All plans include a 14-day free trial • Cancel anytime • No setup fees</p>
     </div>
   </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://oneixiqdahcwktickplx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uZWl4aXFkYWhjd2t0aWNrcGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzMTYwNDMsImV4cCI6MjA3Mzg5MjA0M30.xPljznEkOi9HTW0FugQ-ksLqUA91o7HTGRi069EN430';
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function updateNavLinks() {
+      let isLoggedIn = false;
+      if (window.supabase) {
+        const { data: sessionData } = await window.supabase.auth.getSession();
+        isLoggedIn = !!sessionData.session;
+      }
+      document.getElementById('registerLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('signOutLink').style.display = isLoggedIn ? 'inline' : 'none';
+
+      // Stripe buttons logic
+      const basicBtn = document.getElementById('basicStripeBtn');
+      const businessBtn = document.getElementById('businessStripeBtn');
+      if (isLoggedIn) {
+        basicBtn.classList.remove('disabled');
+        basicBtn.setAttribute('href', 'https://buy.stripe.com/test_eVq9AT3Zl54C1IK5jyc7u00');
+        basicBtn.setAttribute('target', '_blank');
+        basicBtn.removeAttribute('tabindex');
+        businessBtn.classList.remove('disabled');
+        businessBtn.setAttribute('href', 'https://buy.stripe.com/test_14AaEXgM7dB8fzA5jyc7u01');
+        businessBtn.setAttribute('target', '_blank');
+        businessBtn.removeAttribute('tabindex');
+      } else {
+        basicBtn.classList.add('disabled');
+        basicBtn.setAttribute('href', '#');
+        basicBtn.removeAttribute('target');
+        basicBtn.setAttribute('tabindex', '-1');
+        businessBtn.classList.add('disabled');
+        businessBtn.setAttribute('href', '#');
+        businessBtn.removeAttribute('target');
+        businessBtn.setAttribute('tabindex', '-1');
+      }
+    }
+    updateNavLinks();
+
+    document.getElementById('signOutBtn').addEventListener('click', async function() {
+      if (window.supabase) {
+        await window.supabase.auth.signOut();
+      }
+      localStorage.removeItem('access_token');
+      window.location.href = 'login.html';
+    });
+  </script>
 </body>
 </html>

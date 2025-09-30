@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Details - ClearRoute AI</title>
@@ -10,15 +11,17 @@
   <header class="navbar">
   <a href="index.html" class="logo">ClearRoute AI</a>
     <nav>
-      <ul class="nav-links">
+      <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
-        <li><a href="register.html">Register</a></li>
+        <li id="registerLink"><a href="register.html">Register</a></li>
+        <li id="loginLink"><a href="login.html">Sign In</a></li>
+        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn">Sign Out</button></li>
       </ul>
     </nav>
   </header>
 
   <section class="auth-section">
-    <h2>Business Details</h2>
+  <h2>Business Details</h2>
     <form id="businessDetailsForm">
   <label for="businessName">Business Name</label>
   <input type="text" id="businessName" placeholder="Business Name" required>
@@ -41,13 +44,83 @@
   </section>
 
   <script>
-    document.getElementById('businessDetailsForm').addEventListener('submit', function(e) {
+    // Initialize Supabase client (only once)
+    const SUPABASE_URL = 'https://oneixiqdahcwktickplx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uZWl4aXFkYWhjd2t0aWNrcGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzMTYwNDMsImV4cCI6MjA3Mzg5MjA0M30.xPljznEkOi9HTW0FugQ-ksLqUA91o7HTGRi069EN430';
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Show/hide nav links based on authentication status
+    async function updateNavLinks() {
+      let isLoggedIn = false;
+      if (window.supabase) {
+        const { data: sessionData } = await window.supabase.auth.getSession();
+        isLoggedIn = !!sessionData.session;
+      }
+      document.getElementById('registerLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('signOutLink').style.display = isLoggedIn ? 'inline' : 'none';
+    }
+    updateNavLinks();
+
+    // Hide nav links immediately if already logged in (for fast UI)
+    window.addEventListener('DOMContentLoaded', updateNavLinks);
+
+    document.getElementById('signOutBtn').addEventListener('click', async function() {
+      if (window.supabase) {
+        await window.supabase.auth.signOut();
+      }
+      localStorage.removeItem('access_token');
+      window.location.href = 'login.html';
+    });
+
+    document.getElementById('businessDetailsForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      document.getElementById('businessDetailsMessage').textContent = 'Business details saved!';
-      // You can add logic here to send details to your backend or Supabase
-      setTimeout(function() {
-        window.location.href = "subscription.html";
-      }, 1200);
+
+      // Collect form data
+  const name = document.getElementById('businessName').value;
+  const email = document.getElementById('businessEmail').value;
+      const phone = document.getElementById('businessPhone').value;
+      const address = document.getElementById('businessAddress').value;
+      const logoInput = document.getElementById('businessLogo');
+      let logo_url = '';
+      if (logoInput.files && logoInput.files[0]) {
+        // You can implement actual upload logic here
+        logo_url = 'uploaded_logo_url.png';
+      }
+
+      // Get access token from localStorage
+      const accessToken = localStorage.getItem('access_token');
+      if (!accessToken) {
+        document.getElementById('businessDetailsMessage').textContent = 'User not authenticated.';
+        return;
+      }
+
+      // Send POST request to Express backend with token in Authorization header
+      const response = await fetch('http://localhost:3000/api/user/business/details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+        name,
+        email,
+          phone,
+          address,
+          logo_url
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        document.getElementById('businessDetailsMessage').textContent = 'Business details saved!';
+        setTimeout(function() {
+          window.location.href = "subscription.html";
+        }, 1200);
+      } else {
+        document.getElementById('businessDetailsMessage').textContent = 'Error: ' + (result.error || 'Could not save details');
+      }
     });
   </script>
 </body>
