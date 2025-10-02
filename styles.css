@@ -218,6 +218,7 @@ label {
 }
 
 .subscription-grid {
+  align-items: stretch;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
@@ -226,6 +227,10 @@ label {
 }
 
 .subscription-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   background: #121417;
   border-radius: 16px;
   padding: 2rem;
