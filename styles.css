@@ -31,6 +31,8 @@ body {
   line-height: 1.5;
   padding: 0.2rem 0;
   text-decoration: none;
+  width: 100px;
+  height: auto;
 }
 
 .nav-links {
@@ -217,9 +219,9 @@ label {
 
 .subscription-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 3rem auto 0;
 }
 
