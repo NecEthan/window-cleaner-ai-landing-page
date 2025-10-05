@@ -1,203 +1,823 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClearRoute AI - Save Time & Money</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LuxRoute — Coming Soon</title>
+<meta name="description" content="LuxRoute: AI-powered route optimisation for service providers. Join the waitlist for early access and launch-only pricing." />
+<meta property="og:title" content="LuxRoute — Coming Soon" />
+<meta property="og:description" content="Join the waitlist for early access and launch-only pricing." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/assets/luxroute-share.jpg" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg-start:#071223; /* dark gradient start */
+--bg-end:#0b2139; /* dark gradient end */
+--text:#e9f1ff; /* primary text */
+--muted:#9fb1c6; /* secondary text */
+--brand:#10c3c9; /* LuxRoute teal */
+--brand-strong:#0fb2b8;
+--card:#0e233d; /* card background */
+--line:#183552;
+--success:#19d27c;
+--danger:#ff5c6c;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+margin:0;
+font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+color:var(--text);
+background: linear-gradient(-45deg, #000000, #0a0a0a, #111111, #0d0d0d);
+background-size: 400% 400%;
+animation: gradient 15s ease infinite;
+min-height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.container{
+max-width:1100px;
+margin:0 auto;
+padding:32px 20px 80px;
+width: 100%;
+}
+
+header{
+display:flex;
+align-items:center;
+gap:20px;
+animation: fadeInDown 1s ease-out;
+}
+header img.logo{
+width:60px; height:60px; display:block;
+border-radius: 12px;
+box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+transition: transform 0.3s ease;
+}
+header img.logo:hover{
+transform: scale(1.05) rotate(2deg);
+}
+.brand-block{
+display:flex; flex-direction:column; gap:4px;
+}
+.brand-name{
+font-weight:800; letter-spacing:0.8px; font-size:1.4rem;
+color: var(--text);
+}
+.tagline{
+font-size:0.9rem; color:var(--brand); text-transform:uppercase; letter-spacing:0.15em;
+font-weight: 600;
+}
+
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.hero{
+margin-top:80px;
+text-align:center;
+padding: 40px 20px;
+}
+.hero h1{
+font-size: clamp(2.5rem, 4vw, 4rem);
+line-height:1.15;
+margin:0 0 24px;
+font-weight:800;
+background: linear-gradient(135deg, var(--text), var(--brand));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-shadow: 0 0 30px rgba(16, 195, 201, 0.3);
+}
+.hero p{
+margin:0 auto 40px;
+max-width:800px;
+color:var(--muted);
+font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+line-height: 1.6;
+opacity: 0.9;
+}
+
+.waitlist{
+margin:50px auto 0;
+max-width:680px;
+background:rgba(255,255,255,0.05);
+border:1px solid var(--line);
+border-radius:20px;
+padding:32px;
+backdrop-filter: blur(10px);
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.waitlist:hover{
+transform: translateY(-2px);
+box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.form-row{
+display:flex; gap:10px; flex-wrap:wrap;
+align-items: stretch;
+}
+input[type="email"]{
+flex:1 1 320px;
+padding:18px 16px;
+border-radius:12px;
+border:1px solid var(--line);
+background:rgba(11, 29, 51, 0.8);
+color:var(--text);
+font-size:1rem;
+outline:none;
+transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+input[type="email"]:focus{
+border-color: var(--brand);
+background:rgba(11, 29, 51, 1);
+box-shadow: 0 0 0 3px rgba(16, 195, 201, 0.1);
+}
+input[type="email"]::placeholder{ color:#7893b1; }
+button[type="submit"]{
+flex:0 0 auto;
+padding:18px 28px;
+border-radius:12px;
+border:0;
+background:linear-gradient(135deg, var(--brand), var(--brand-strong));
+color:#00131f;
+font-weight:800;
+letter-spacing:0.02em;
+cursor:pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+}
+button[type="submit"]:hover{
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(16, 195, 201, 0.4);
+background:linear-gradient(135deg, #12d4db, var(--brand));
+}
+button[type="submit"]:active{ transform: translateY(0px); }
+.note{
+margin-top:8px; font-size:0.85rem; color:#89a0b9; text-align:left;
+}
+.status{ margin-top:10px; font-size:0.95rem; }
+.status.success{ color:var(--success); }
+.status.error{ color:var(--danger); }
+
+/* Pricing */
+.pricing{
+margin:100px auto 0;
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap:24px;
+max-width: 1000px;
+width: 100%;
+}
+.card{
+background:rgba(14, 35, 61, 0.6);
+border:1px solid var(--line);
+border-radius:20px;
+padding:32px 28px;
+position: relative;
+transition: all 0.4s ease;
+backdrop-filter: blur(10px);
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.card:hover{
+transform: translateY(-8px);
+box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+border-color: rgba(16, 195, 201, 0.3);
+}
+.card:nth-child(2){
+border: 2px solid var(--brand);
+box-shadow: 0 4px 30px rgba(16, 195, 201, 0.2);
+}
+.card:nth-child(2):hover{
+box-shadow: 0 12px 50px rgba(16, 195, 201, 0.3), 0 0 0 1px rgba(16, 195, 201, 0.2);
+}
+.card h3{ margin:0 0 12px; font-size:1.4rem; letter-spacing:0.02em; font-weight: 700; }
+.price{
+display:flex; align-items:flex-end; gap:8px; margin:12px 0 24px;
+}
+.price .amount{ font-size:2.5rem; font-weight:800; color: var(--brand); }
+.price .per{ color:var(--muted); margin-bottom:6px; font-size: 1rem; }
+.features{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px; }
+.features li{ color:#d5e3f0; font-size: 0.95rem; display: flex; align-items: center; }
+.features li::before{ content: ''; width: 6px; height: 6px; background: var(--brand); border-radius: 50%; margin-right: 12px; }
+.pill{
+display:inline-block; padding:6px 12px; border-radius:999px;
+background:linear-gradient(135deg, rgba(16,195,201,.15), rgba(16,195,201,.25)); 
+color:#7fe9ed; font-size:0.8rem; margin-bottom:16px;
+border:1px solid rgba(16,195,201,.4);
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+/* Basic Form Styling */
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+}
+
+form label {
+	position: relative;
+	color: var(--text);
+	font-size: 0.9rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	opacity: 0.8;
+	margin-bottom: 8px;
+}
+
+form input[type="email"], form textarea {
+	padding: 16px 20px;
+	border-radius: 12px;
+	border: 2px solid rgba(24, 53, 82, 0.6);
+	background: rgba(14, 35, 61, 0.4);
+	color: var(--text);
+	font-size: 1rem;
+	outline: none;
+	transition: all 0.3s ease;
+	font-family: inherit;
+	backdrop-filter: blur(8px);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="email"]:focus, form textarea:focus {
+	border-color: var(--brand);
+	background: rgba(14, 35, 61, 0.7);
+	box-shadow: 0 0 0 4px rgba(16, 195, 201, 0.15), 0 8px 25px rgba(0, 0, 0, 0.2);
+	transform: translateY(-1px);
+}
+
+form textarea {
+	resize: vertical;
+	min-height: 100px;
+	max-height: 200px;
+}
+
+form input[type="email"]::placeholder, form textarea::placeholder {
+	color: rgba(159, 177, 198, 0.6);
+	font-style: italic;
+}
+
+form button[type="submit"] {
+	padding: 16px 32px;
+	border-radius: 12px;
+	border: 0;
+	background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+	color: #00131f;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 6px 20px rgba(16, 195, 201, 0.4);
+	font-size: 1rem;
+	font-family: inherit;
+	margin-top: 8px;
+	text-transform: uppercase;
+	backdrop-filter: blur(8px);
+}
+
+form button[type="submit"]:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 30px rgba(16, 195, 201, 0.6);
+	background: linear-gradient(135deg, var(--brand-strong), var(--brand));
+	scale: 1.02;
+}
+
+form button[type="submit"]:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(16, 195, 201, 0.3), 0 8px 30px rgba(16, 195, 201, 0.6);
+	transform: translateY(-1px);
+}
+
+form button[type="submit"]:active {
+	transform: translateY(0px);
+	box-shadow: 0 4px 15px rgba(16, 195, 201, 0.4);
+}
+
+/* Footer */
+footer{
+margin-top:80px;
+border-top:1px solid var(--line);
+padding-top:22px;
+color:#88a0b8;
+font-size:0.92rem;
+display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; align-items:center;
+}
+a{ color:#8fe7ea; text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+/* Tablet and Mobile Responsive Styles */
+@media (max-width: 1024px) {
+	.container {
+		padding: 24px 20px 70px;
+	}
+	
+	.pricing {
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 20px;
+	}
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+	.container {
+		padding: 20px 16px 60px;
+	}
+	
+	header {
+		gap: 16px;
+		margin-top: 10px;
+		padding: 16px 0;
+		justify-content: center;
+		text-align: center;
+	}
+	
+	header img.logo {
+		width: 50px;
+		height: 50px;
+	}
+	
+	.brand-name {
+		font-size: 1.2rem;
+		letter-spacing: 0.6px;
+	}
+	
+	.tagline {
+		font-size: 0.8rem;
+		letter-spacing: 0.1em;
+	}
+	
+	.hero {
+		margin-top: 40px;
+		padding: 20px 10px;
+		text-align: center;
+	}
+	
+	.hero h1 {
+		font-size: clamp(2rem, 7vw, 2.8rem);
+		margin: 0 0 24px;
+		line-height: 1.2;
+		text-align: center;
+	}
+	
+	.hero p {
+		font-size: clamp(1.1rem, 4vw, 1.2rem);
+		margin: 0 auto 32px;
+		max-width: 100%;
+		padding: 0 16px;
+		text-align: center;
+		line-height: 1.6;
+	}
+	
+	.waitlist {
+		margin: 32px auto 0;
+		max-width: 100%;
+		padding: 28px 20px;
+		border-radius: 16px;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+	}
+	
+	.form-row {
+		flex-direction: column;
+		gap: 16px;
+	}
+	
+	input[type="email"] {
+		flex: 1 1 auto;
+		width: 100%;
+		padding: 16px 14px;
+		font-size: 16px; /* Prevents zoom on iOS */
+		border-radius: 10px;
+	}
+	
+	button[type="submit"] {
+		width: 100%;
+		padding: 16px 24px;
+		font-size: 1rem;
+		border-radius: 10px;
+	}
+	
+	.note {
+		text-align: center;
+		font-size: 0.8rem;
+		padding: 0 10px;
+	}
+	
+	.status {
+		text-align: center;
+		font-size: 0.9rem;
+	}
+	
+	/* Pricing Mobile Styles */
+	.pricing {
+		margin: 60px auto 0;
+		grid-template-columns: 1fr;
+		gap: 20px;
+		max-width: 100%;
+		padding: 0 10px;
+	}
+	
+	.card {
+		padding: 24px 20px;
+		border-radius: 16px;
+		text-align: center;
+	}
+	
+	.card h3 {
+		font-size: 1.3rem;
+		text-align: center;
+		margin: 0 0 16px;
+	}
+	
+	.price {
+		justify-content: center;
+		text-align: center;
+		margin: 16px 0 20px;
+	}
+	
+	.price .amount {
+		font-size: 2.2rem;
+	}
+	
+	.price .per {
+		font-size: 0.9rem;
+	}
+	
+	.features {
+		text-align: left;
+		gap: 10px;
+	}
+	
+	.features li {
+		font-size: 0.9rem;
+		text-align: left;
+		justify-content: flex-start;
+	}
+	
+	.pill {
+		font-size: 0.75rem;
+		padding: 5px 10px;
+		margin-bottom: 12px;
+	}
+	
+	/* Basic Form Mobile */
+	form {
+		gap: 14px;
+	}
+	
+	form label {
+		margin-bottom: 14px;
+		display: block;
+		font-size: 0.85rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: var(--brand);
+		opacity: 0.9;
+	}
+	
+	form input[type="email"], form textarea {
+		padding: 20px 18px;
+		font-size: 16px; /* Prevents zoom on iOS */
+		border-radius: 14px;
+		min-height: 58px; /* Better touch target */
+		border: 2.5px solid rgba(24, 53, 82, 0.4);
+		background: rgba(14, 35, 61, 0.3);
+		backdrop-filter: blur(12px);
+		box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+		transition: all 0.4s ease;
+	}
+	
+	form button[type="submit"] {
+		padding: 20px 28px;
+		font-size: 1rem;
+		border-radius: 14px;
+		min-height: 58px; /* Better touch target */
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+		box-shadow: 0 8px 25px rgba(16, 195, 201, 0.35), 0 2px 10px rgba(0, 0, 0, 0.2);
+		transition: all 0.3s ease;
+	}
+	
+	/* Enhanced mobile form interactions */
+	form input[type="email"]:focus, form textarea:focus {
+		border-color: var(--brand);
+		background: rgba(14, 35, 61, 0.6);
+		box-shadow: 0 0 0 4px rgba(16, 195, 201, 0.2), 0 8px 30px rgba(0, 0, 0, 0.25);
+		transform: translateY(-1px);
+	}
+	
+	form button[type="submit"]:hover {
+		transform: translateY(-2px) scale(1.02);
+		box-shadow: 0 12px 35px rgba(16, 195, 201, 0.45), 0 4px 15px rgba(0, 0, 0, 0.3);
+		background: linear-gradient(135deg, var(--brand-strong), var(--brand));
+	}
+	
+	form button[type="submit"]:active {
+		transform: translateY(0px) scale(1);
+		box-shadow: 0 6px 20px rgba(16, 195, 201, 0.3);
+	}
+	
+	form label {
+		font-size: 0.9rem;
+	}
+	
+	/* Footer Mobile */
+	footer {
+		margin-top: 60px;
+		flex-direction: column;
+		gap: 16px;
+		text-align: center;
+		font-size: 0.85rem;
+		padding: 20px 10px;
+	}
+	
+	footer div {
+		text-align: center;
+	}
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+	.container {
+		padding: 16px 12px 50px;
+	}
+	
+	header {
+		gap: 12px;
+		flex-direction: column;
+		text-align: center;
+	}
+	
+	header img.logo {
+		width: 45px;
+		height: 45px;
+	}
+	
+	.brand-name {
+		font-size: 1.1rem;
+	}
+	
+	.tagline {
+		font-size: 0.75rem;
+	}
+	
+	.hero {
+		margin-top: 30px;
+		padding: 16px 8px;
+	}
+	
+	.hero h1 {
+		font-size: clamp(1.6rem, 9vw, 2.2rem);
+		margin: 0 0 16px;
+	}
+	
+	.hero p {
+		font-size: clamp(0.95rem, 4.5vw, 1.05rem);
+		margin: 0 auto 24px;
+		padding: 0 8px;
+	}
+	
+	.waitlist {
+		padding: 20px 16px;
+		margin: 24px auto 0;
+	}
+	
+	input[type="email"] {
+    margin-top: 20px;
+		padding: 14px 12px;
+	}
+	
+	button[type="submit"] {
+		padding: 14px 20px;
+	}
+	
+	.pricing {
+		margin: 50px auto 0;
+		padding: 0 8px;
+	}
+	
+	.card {
+		padding: 20px 16px;
+	}
+	
+	.card h3 {
+		font-size: 1.2rem;
+	}
+	
+	.price .amount {
+		font-size: 2rem;
+	}
+	
+	.features li {
+		font-size: 0.85rem;
+	}
+	
+	form input[type="email"], form textarea {
+		padding: 18px 16px;
+		border-radius: 12px;
+		min-height: 54px;
+	}
+	
+	form button[type="submit"] {
+		padding: 18px 24px;
+		border-radius: 12px;
+		min-height: 54px;
+	}
+	
+	form label {
+		margin-bottom: 12px;
+		display: block;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.8px;
+	}
+	
+	footer {
+		margin-top: 50px;
+		font-size: 0.8rem;
+		padding: 16px 8px;
+	}
+}
+</style>
 </head>
+
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // Initialize Supabase client
-    const SUPABASE_URL = 'https://oneixiqdahcwktickplx.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uZWl4aXFkYWhjd2t0aWNrcGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzMTYwNDMsImV4cCI6MjA3Mzg5MjA0M30.xPljznEkOi9HTW0FugQ-ksLqUA91o7HTGRi069EN430';
-    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<div class="container">
+<!-- Header / Logo -->
+<header aria-label="Brand">
+<!-- Replace src with your hosted logo path -->
+<img class="logo" src="logo.JPG" alt="LuxRoute logo (LR teal)" />
+<div class="brand-block">
+<div class="brand-name">LUXROUTE</div>
+<div class="tagline">SIMPLY SEAMLESS</div>
+</div>
+</header>
 
-    // Show/hide nav links and plan actions based on authentication status
-    async function updateNavLinksAndActions() {
-      let isLoggedIn = false;
-      let hasBusinessDetails = false;
-      if (window.supabase) {
-        const { data: sessionData } = await window.supabase.auth.getSession();
-        isLoggedIn = !!sessionData.session;
-        if (isLoggedIn) {
-          // Check if user has saved business details (call your backend API)
-          try {
-            const accessToken = localStorage.getItem('access_token');
-            const response = await fetch('http://localhost:3000/api/user/business/details', {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${accessToken}`
-              }
-            });
-            const result = await response.json();
-            hasBusinessDetails = result && result.success && result.data;
-          } catch (e) {
-            hasBusinessDetails = false;
-          }
-        }
-      }
-      if (isLoggedIn && hasBusinessDetails) {
-        window.location.href = 'subscription.html';
-        return;
-      }
-      document.getElementById('registerLink').style.display = isLoggedIn ? 'none' : 'inline';
-      document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
-      document.getElementById('signOutLink').style.display = isLoggedIn ? 'inline' : 'none';
-      // Hide register links in subscription plans
-      const planActions = document.querySelectorAll('.plan-action a[href="register.html"]');
-      planActions.forEach(a => { a.style.display = isLoggedIn ? 'none' : 'inline-block'; });
-    }
-    updateNavLinksAndActions();
+<!-- Hero -->
+<section class="hero" aria-labelledby="hero-title">
+<h1 id="hero-title">Be the First to Experience LuxRoute</h1>
+<p>
+Sign up now to secure early access to <strong>LuxRoute</strong>. Waitlist members get notified before anyone else
+and unlock launch-only pricing and bonuses.
+</p>
 
-    document.getElementById('signOutBtn').addEventListener('click', async function() {
-      if (window.supabase) {
-        await window.supabase.auth.signOut();
-      }
-      localStorage.removeItem('access_token');
-      window.location.href = 'login.html';
-    });
-  </script>
-  <!-- Navbar -->
-  <header class="navbar">
-  <a href="index.html" class="logo">ClearRoute AI</a>
-  <img src="/LUXROUTE Logo Design.png" class="logo" alt="">
-    <nav>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#subscription">Pricing</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li id="registerLink"><a href="register.html">Register</a></li>
-        <li id="loginLink"><a href="login.html">Sign In</a></li>
-        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn">Sign Out</button></li>
-      </ul>
-    </nav>
-    <a href="#subscription" class="btn-outline">Subscribe</a>
-  </header>
+<!-- Waitlist -->
+<div class="waitlist" role="region" aria-labelledby="waitlist-heading">
+<h2 id="waitlist-heading" style="position:absolute; left:-9999px">Join the Waitlist</h2>
+<!-- <form id="waitlist-form" class="form-row" action="https://formspree.io/f/xrbylany" method="POST" novalidate>
+<input type="hidden" name="_subject" value="New LuxRoute Waitlist Signup" />
+<input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required />
+<button type="submit" aria-label="Join Waitlist">Join Waitlist</button>
+</form> -->
+<form
+  id="waitlist-form"
+  action="https://formspree.io/f/xrbylany"
+  method="POST"
+>
+  <input type="hidden" name="_subject" value="New LuxRoute Waitlist Signup" />
+  <label>
+    Your email:
+    <input type="email" name="email" placeholder="Enter your email" required>
+  </label>
+  <button type="submit">Join Waitlist</button>
+</form>
+<div class="note">We’ll only use your email to notify you about LuxRoute’s launch — no spam, ever.</div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</div>
+</section>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <span class="tag">🚀 AI for Window Cleaners</span>
-    <h1>Optimize Routes & Automate Accounting</h1>
-    <p>
-      ClearRoute AI helps window cleaners save hours every week with smart route 
-      optimization and automatic accounting — so you can focus on growing your business.
-    </p>
-    <div class="cta">
-      <a href="#subscription" class="btn primary">Start Free Trial</a>
-      <a href="#subscription" class="btn secondary">Subscribe Now</a>
-    </div>
-    <div class="app-preview">
-      <img src="app-screenshot.png" alt="Mobile App Preview">
-    </div>
-  </section>
+<!-- Pricing -->
+<section class="pricing" aria-label="Subscription Plans">
+<article class="card">
+<h3>Basic</h3>
+<div class="price">
+<div class="amount">£19.99</div><div class="per">/ month</div>
+</div>
+<ul class="features">
+<li>✓ Route optimisation & scheduling</li>
+<li>✓ Client & earnings trackings</li>
+<li>✓ Early access users will have access to marketplace (usually for silver and gold members)</li>
+</ul>
+</article>
 
-  <!-- Features -->
-  <section id="features" class="services">
-    <span class="tag">✨ Features</span>
-    <h2>Why Choose ClearRoute AI?</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Route Optimization</h3>
-        <p>AI-powered scheduling ensures your cleaners take the fastest, most efficient routes.</p>
-      </div>
-      <div class="card">
-        <h3>Smart Accounting</h3>
-        <p>Track jobs, invoices, and payments automatically — no more spreadsheets.</p>
-      </div>
-      <div class="card">
-        <h3>Time & Cost Savings</h3>
-        <p>Spend less time planning, save fuel, and increase your profit margins.</p>
-      </div>
-    </div>
-  </section>
+<article class="card">
+<span class="pill">Most Popular</span>
+<h3>Business</h3>
+<div class="price">
+<div class="amount">£34.99</div><div class="per">/ month</div>
+</div>
+<ul class="features">
+<li>✓ Route optimisation & scheduling</li>
+<li>✓ Client & earnings trackings</li>
+<li>✓ Marketplace access</li>
+<li>✓ Send/receive access</li>
+</ul>
+</article>
 
-  <!-- Subscription Plans -->
-  <section id="subscription" class="subscription">
-    <span class="tag">💰 Choose Your Plan</span>
-    <h2>Subscription Plans</h2>
-    <p>Choose the perfect plan for your window cleaning business</p>
-    
-    <div class="subscription-grid">
-      <!-- Basic Plan -->
-      <div class="subscription-card">
-        <div class="plan-header">
-          <h3>Basic</h3>
-          <div class="price">
-            <span class="currency">£</span>
-            <span class="amount">19.99</span>
-            <span class="period">/month</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <ul>
-            <li>✓ Route optimisation & scheduling</li>
-            <li>✓ Client & earnings trackings</li>
-          </ul>
-        </div>
-        <div class="plan-action">
-          <a href="register.html" class="btn primary">Start Basic Plan</a>
-        </div>
-      </div>
+<article class="card">
+<h3>Premium</h3>
+<div class="price">
+<div class="amount">£59.99</div><div class="per">/ month</div>
+</div>
+<ul class="features">
+<li>✓ Route optimisation & scheduling</li>
+<li>✓ Client & earnings trackings</li>
+<li>✓ Marketplace access</li>
+<li>✓ Send/receive access</li>
+<li>✓ Quoting tool integration</li>
+<li>✓ Website rebuild option</li>
+</ul>
+</article>
+</section>
 
-      <!-- Business Plan -->
-      <div class="subscription-card featured">
-        <div class="featured-badge">Most Popular</div>
-        <div class="plan-header">
-          <h3>Business</h3>
-          <div class="price">
-            <span class="currency">£</span>
-            <span class="amount">34.99</span>
-            <span class="period">/month</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <ul>
-            <li>✓ Route optimisation & scheduling</li>
-            <li>✓ Client & earnings trackings</li>
-            <li>✓ Marketplace access</li>
-            <li>✓ Send/receive access</li>
-          </ul>
-        </div>
-        <div class="plan-action">
-          <a href="register.html" class="btn primary">Start Business Plan</a>
-        </div>
-      </div>
+<!-- Footer -->
+<footer>
+<div>© <span id="year"></span> LuxRoute. All rights reserved.</div>
+<div>
+LuxRoute is a product of <strong>NexumSpace Ltd</strong>, registered in England &amp; Wales.
+Contact: <a href="mailto:enquiries@luxroute.co.uk">enquiries@luxroute.co.uk</a>
+</div>
+<div>
+<a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a>
+</div>
+</footer>
+</div>
 
-      <!-- Premium Plan -->
-      <div class="subscription-card">
-        <div class="plan-header">
-          <h3>Premium</h3>
-          <div class="price">
-            <span class="currency">£</span>
-            <span class="amount">59.99</span>
-            <span class="period">/month</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <ul>
-            <li>✓ Route optimisation & scheduling</li>
-            <li>✓ Client & earnings trackings</li>
-            <li>✓ Marketplace access</li>
-            <li>✓ Send/receive access</li>
-            <li>✓ Quoting tool integration</li>
-            <li>✓ Website rebuild option</li>
-          </ul>
-        </div>
-        <div class="plan-action">
-          <a href="register.html" class="btn primary">Start Premium Plan</a>
-        </div>
-      </div>
-    
-    <div class="subscription-footer">
-      <p>🔒 All plans include a 14-day free trial • Cancel anytime • No setup fees</p>
-    </div>
-  </section>
+<script>
+// year
+document.getElementById('year').textContent = new Date().getFullYear();
 
-  <!-- Footer -->
-  <footer id="contact">
-    <p>📧 Contact us: support@clearrouteai.com</p>
-  </footer>
+// Waitlist form submit handler
+const form = document.getElementById('waitlist-form');
+const status = document.getElementById('status');
+
+if(form) {
+form.addEventListener('submit', async (e) => {
+e.preventDefault();
+status.textContent = '';
+status.className = 'status';
+
+const email = form.querySelector('input[name="email"]').value.trim();
+
+if(!email || !/^\S+@\S+\.\S+$/.test(email)){
+status.textContent = 'Enter a valid email.';
+status.classList.add('error');
+return;
+}
+
+try{
+const formData = new FormData(form);
+
+const res = await fetch('https://formspree.io/f/xrbylany', {
+method: 'POST',
+headers: {
+'Accept': 'application/json'
+},
+body: formData
+});
+
+if(res.ok){
+form.reset();
+status.textContent = 'You’re on the list. We’ll email you at launch.';
+status.classList.add('success');
+}else{
+status.textContent = 'Could not submit right now. Try again shortly.';
+status.classList.add('error');
+}
+}catch(err){
+status.textContent = 'Network error. Please try again.';
+status.classList.add('error');
+}
+});
+}
+</script>
 </body>
 </html>

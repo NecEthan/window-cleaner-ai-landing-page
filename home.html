@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearRoute AI - Save Time & Money</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Initialize Supabase client
+    const SUPABASE_URL = 'https://oneixiqdahcwktickplx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uZWl4aXFkYWhjd2t0aWNrcGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzMTYwNDMsImV4cCI6MjA3Mzg5MjA0M30.xPljznEkOi9HTW0FugQ-ksLqUA91o7HTGRi069EN430';
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Show/hide nav links and plan actions based on authentication status
+    async function updateNavLinksAndActions() {
+      let isLoggedIn = false;
+      let hasBusinessDetails = false;
+      if (window.supabase) {
+        const { data: sessionData } = await window.supabase.auth.getSession();
+        isLoggedIn = !!sessionData.session;
+        if (isLoggedIn) {
+          // Check if user has saved business details (call your backend API)
+          try {
+            const accessToken = localStorage.getItem('access_token');
+            const response = await fetch('http://localhost:3000/api/user/business/details', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            const result = await response.json();
+            hasBusinessDetails = result && result.success && result.data;
+          } catch (e) {
+            hasBusinessDetails = false;
+          }
+        }
+      }
+      if (isLoggedIn && hasBusinessDetails) {
+        window.location.href = 'subscription.html';
+        return;
+      }
+      document.getElementById('registerLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
+      document.getElementById('signOutLink').style.display = isLoggedIn ? 'inline' : 'none';
+      // Hide register links in subscription plans
+      const planActions = document.querySelectorAll('.plan-action a[href="register.html"]');
+      planActions.forEach(a => { a.style.display = isLoggedIn ? 'none' : 'inline-block'; });
+    }
+    updateNavLinksAndActions();
+
+    document.getElementById('signOutBtn').addEventListener('click', async function() {
+      if (window.supabase) {
+        await window.supabase.auth.signOut();
+      }
+      localStorage.removeItem('access_token');
+      window.location.href = 'login.html';
+    });
+  </script>
+  <!-- Navbar -->
+  <header class="navbar">
+  <a href="home.html" class="logo">ClearRoute AI</a>
+  <img src="/LUXROUTE Logo Design.png" class="logo" alt="">
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#subscription">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li id="registerLink"><a href="register.html">Register</a></li>
+        <li id="loginLink"><a href="login.html">Sign In</a></li>
+        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn">Sign Out</button></li>
+      </ul>
+    </nav>
+    <a href="#subscription" class="btn-outline">Subscribe</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <span class="tag">🚀 AI for Window Cleaners</span>
+    <h1>Optimize Routes & Automate Accounting</h1>
+    <p>
+      ClearRoute AI helps window cleaners save hours every week with smart route 
+      optimization and automatic accounting — so you can focus on growing your business.
+    </p>
+    <div class="cta">
+      <a href="#subscription" class="btn primary">Start Free Trial</a>
+      <a href="#subscription" class="btn secondary">Subscribe Now</a>
+    </div>
+    <div class="app-preview">
+      <img src="app-screenshot.png" alt="Mobile App Preview">
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="services">
+    <span class="tag">✨ Features</span>
+    <h2>Why Choose ClearRoute AI?</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Route Optimization</h3>
+        <p>AI-powered scheduling ensures your cleaners take the fastest, most efficient routes.</p>
+      </div>
+      <div class="card">
+        <h3>Smart Accounting</h3>
+        <p>Track jobs, invoices, and payments automatically — no more spreadsheets.</p>
+      </div>
+      <div class="card">
+        <h3>Time & Cost Savings</h3>
+        <p>Spend less time planning, save fuel, and increase your profit margins.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscription Plans -->
+  <section id="subscription" class="subscription">
+    <span class="tag">💰 Choose Your Plan</span>
+    <h2>Subscription Plans</h2>
+    <p>Choose the perfect plan for your window cleaning business</p>
+    
+    <div class="subscription-grid">
+      <!-- Basic Plan -->
+      <div class="subscription-card">
+        <div class="plan-header">
+          <h3>Basic</h3>
+          <div class="price">
+            <span class="currency">£</span>
+            <span class="amount">19.99</span>
+            <span class="period">/month</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <ul>
+            <li>✓ Route optimisation & scheduling</li>
+            <li>✓ Client & earnings trackings</li>
+          </ul>
+        </div>
+        <div class="plan-action">
+          <a href="register.html" class="btn primary">Start Basic Plan</a>
+        </div>
+      </div>
+
+      <!-- Business Plan -->
+      <div class="subscription-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="plan-header">
+          <h3>Business</h3>
+          <div class="price">
+            <span class="currency">£</span>
+            <span class="amount">34.99</span>
+            <span class="period">/month</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <ul>
+            <li>✓ Route optimisation & scheduling</li>
+            <li>✓ Client & earnings trackings</li>
+            <li>✓ Marketplace access</li>
+            <li>✓ Send/receive access</li>
+          </ul>
+        </div>
+        <div class="plan-action">
+          <a href="register.html" class="btn primary">Start Business Plan</a>
+        </div>
+      </div>
+
+      <!-- Premium Plan -->
+      <div class="subscription-card">
+        <div class="plan-header">
+          <h3>Premium</h3>
+          <div class="price">
+            <span class="currency">£</span>
+            <span class="amount">59.99</span>
+            <span class="period">/month</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <ul>
+            <li>✓ Route optimisation & scheduling</li>
+            <li>✓ Client & earnings trackings</li>
+            <li>✓ Marketplace access</li>
+            <li>✓ Send/receive access</li>
+            <li>✓ Quoting tool integration</li>
+            <li>✓ Website rebuild option</li>
+          </ul>
+        </div>
+        <div class="plan-action">
+          <a href="register.html" class="btn primary">Start Premium Plan</a>
+        </div>
+      </div>
+    
+    <div class="subscription-footer">
+      <p>🔒 All plans include a 14-day free trial • Cancel anytime • No setup fees</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <p>📧 Contact us: support@clearrouteai.com</p>
+  </footer>
+</body>
+</html>
