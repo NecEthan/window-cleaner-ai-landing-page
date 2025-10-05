@@ -35,6 +35,12 @@
   <label for="businessAddress">Business Address</label>
   <input type="text" id="businessAddress" placeholder="Business Address" required>
 
+  <label for="sortCode">Sort Code</label>
+  <input type="text" id="sortCode" placeholder="12-34-56" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
+
+  <label for="accountNumber">Account Number</label>
+  <input type="text" id="accountNumber" placeholder="12345678" pattern="[0-9]{8}" required>
+
   <label for="businessLogo">Business Logo</label>
   <input type="file" id="businessLogo" accept="image/*">
 
@@ -81,6 +87,8 @@
   const email = document.getElementById('businessEmail').value;
       const phone = document.getElementById('businessPhone').value;
       const address = document.getElementById('businessAddress').value;
+      const sort_code = document.getElementById('sortCode').value;
+      const account_number = document.getElementById('accountNumber').value;
       const logoInput = document.getElementById('businessLogo');
       let logo_url = '';
       if (logoInput.files && logoInput.files[0]) {
@@ -107,9 +115,12 @@
         email,
           phone,
           address,
+          sort_code,
+          account_number,
           logo_url
         })
       });
+
 
       const result = await response.json();
 
