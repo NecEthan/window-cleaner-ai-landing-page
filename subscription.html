@@ -3,30 +3,433 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Choose Subscription - ClearRoute AI</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Choose Your Plan - LuxRoute</title>
+  <meta name="description" content="Select the perfect LuxRoute plan for your service business and unlock AI-powered route optimization." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root{
+      --bg-start:#071223;
+      --bg-end:#0b2139;
+      --text:#e9f1ff;
+      --muted:#9fb1c6;
+      --brand:#10c3c9;
+      --brand-strong:#0fb2b8;
+      --card:#0e233d;
+      --line:#183552;
+      --success:#19d27c;
+      --danger:#ff5c6c;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(-45deg, #000000, #0a0a0a, #111111, #0d0d0d);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      min-height: 100vh;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 20px;
+      width: 100%;
+    }
+
+    /* Header Styles */
+    .navbar{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 24px 0;
+      animation: fadeInDown 1s ease-out;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-header{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .navbar img.logo{
+      width:50px; 
+      height:50px; 
+      display:block;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+      transition: transform 0.3s ease;
+    }
+    .navbar img.logo:hover{
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .brand-text{
+      display:flex; 
+      flex-direction:column; 
+      gap:2px;
+    }
+    .brand-name{
+      font-weight:800; 
+      letter-spacing:0.8px; 
+      font-size:1.3rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand-tagline{
+      font-size:0.8rem; 
+      color:var(--brand); 
+      text-transform:uppercase; 
+      letter-spacing:0.15em;
+      font-weight: 600;
+    }
+
+    .nav-links{
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-links a{
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .nav-links a:hover, .nav-links a.active{
+      color: var(--brand);
+    }
+    .nav-links a.active::after{
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand);
+      border-radius: 1px;
+    }
+    .nav-btn{
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: #00131f;
+      border: 0;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .nav-btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+    }
+
+    /* Pricing Section */
+    .pricing-hero{
+      margin-top: 60px;
+      text-align: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 60px;
+    }
+    .pricing-hero h1{
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      margin: 0 0 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text), var(--brand));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pricing-hero p{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    .pricing-hero .tag{
+      display: inline-block;
+      background: rgba(16, 195, 201, 0.15);
+      color: var(--brand);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(16, 195, 201, 0.3);
+    }
+
+    .pricing-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    .pricing-card{
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-card:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+    .pricing-card.featured{
+      border-color: var(--brand);
+      box-shadow: 0 8px 32px rgba(16, 195, 201, 0.2);
+    }
+    .pricing-card.featured:hover{
+      box-shadow: 0 16px 50px rgba(16, 195, 201, 0.3);
+    }
+
+    .featured-badge{
+      position: absolute;
+      top: -1px;
+      right: 24px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: #00131f;
+      padding: 8px 16px;
+      border-radius: 0 0 12px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .plan-header{
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .plan-header h3{
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 16px;
+      color: var(--text);
+    }
+    .pricing-card.featured .plan-header h3{
+      color: var(--brand);
+    }
+
+    .price{
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .price .currency{
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .price .amount{
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .pricing-card.featured .price .amount{
+      color: var(--brand);
+    }
+    .price .period{
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .plan-features{
+      margin-bottom: 32px;
+    }
+    .plan-features ul{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .plan-features li{
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .plan-features li::before{
+      content: '✓';
+      color: var(--success);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .plan-action{
+      text-align: center;
+    }
+    .plan-btn{
+      display: inline-block;
+      padding: 16px 32px;
+      border-radius: 12px;
+      border: 0;
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: #00131f;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(16, 195, 201, 0.4);
+      font-size: 1rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      width: 100%;
+    }
+    .plan-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 195, 201, 0.6);
+      background: linear-gradient(135deg, var(--brand-strong), var(--brand));
+    }
+    .plan-btn:active{
+      transform: translateY(0px);
+    }
+    .plan-btn.disabled{
+      background: rgba(159, 177, 198, 0.3);
+      color: rgba(159, 177, 198, 0.7);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .plan-btn.disabled:hover{
+      transform: none;
+      box-shadow: none;
+      background: rgba(159, 177, 198, 0.3);
+    }
+
+    .pricing-footer{
+      text-align: center;
+      margin-top: 40px;
+      padding: 24px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 16px;
+      border: 1px solid rgba(24, 53, 82, 0.3);
+    }
+    .pricing-footer p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pricing-footer .icon{
+      font-size: 1.1rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+      .navbar { 
+        flex-direction: column; 
+        text-align: center; 
+        gap: 16px;
+        padding: 20px 0;
+      }
+      .nav-links { 
+        gap: 20px; 
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .pricing-hero { margin-top: 40px; margin-bottom: 40px; }
+      .pricing-grid { 
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin: 0 10px 32px;
+      }
+      .pricing-card { 
+        padding: 24px;
+      }
+      .plan-btn { 
+        padding: 18px 24px; 
+        font-size: 1rem; 
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 12px; }
+      .navbar { padding: 16px 0; }
+      .brand-name { font-size: 1.1rem; }
+      .brand-tagline { font-size: 0.75rem; }
+      .pricing-grid { margin: 0 5px 24px; }
+      .pricing-card { padding: 20px; }
+    }
+  </style>
 </head>
 <body>
-  <header class="navbar">
-  <a href="home.html" class="logo">ClearRoute AI</a>
-    <nav>
+  <div class="container">
+    <!-- Header -->
+    <nav class="navbar">
+      <div class="brand-header">
+        <img src="logo.JPG" 
+             alt="LuxRoute Logo" class="logo">
+        <div class="brand-text">
+          <div class="brand-name">LuxRoute</div>
+          <div class="brand-tagline">Smart Service Routes</div>
+        </div>
+      </div>
       <ul class="nav-links" id="navLinks">
-        <li><a href="home.html">Home</a></li>
-        <li id="registerLink"><a href="register.html">Register</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li id="registerLink"><a href="register.html">Sign Up</a></li>
         <li id="loginLink"><a href="login.html">Sign In</a></li>
-        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn">Sign Out</button></li>
+        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="nav-btn">Sign Out</button></li>
       </ul>
     </nav>
-  </header>
 
-  <section class="subscription">
-    <span class="tag">💰 Choose Your Plan</span>
-    <h2>Subscription Plans</h2>
-    <p>Select a plan to continue and unlock all features.</p>
-    <div class="subscription-grid">
-      <div class="subscription-card">
+    <!-- Pricing Hero Section -->
+    <div class="pricing-hero">
+      <div class="tag">💰 Choose Your Plan</div>
+      <h1>Simple, Transparent Pricing</h1>
+      <p>Select the perfect plan for your business and start optimizing your routes with AI-powered efficiency.</p>
+    </div>
+    
+    <!-- Pricing Grid -->
+    <div class="pricing-grid">
+      <div class="pricing-card">
         <div class="plan-header">
-          <h3>Basic</h3>
+          <h3>Basic Plan</h3>
           <div class="price">
             <span class="currency">$</span>
             <span class="amount">29</span>
@@ -35,21 +438,23 @@
         </div>
         <div class="plan-features">
           <ul>
-            <li>✓ Route optimization for up to 50 customers</li>
-            <li>✓ Basic accounting & invoicing</li>
-            <li>✓ Mobile app access</li>
-            <li>✓ Email support</li>
-            <li>✓ Job scheduling</li>
+            <li>Route optimization for up to 50 customers</li>
+            <li>Basic accounting & invoicing</li>
+            <li>Mobile app access</li>
+            <li>Email support</li>
+            <li>Job scheduling</li>
+            <li>Basic reporting</li>
           </ul>
         </div>
         <div class="plan-action">
-          <a id="basicStripeBtn" href="#" class="btn primary disabled" tabindex="-1">Buy Basic Plan</a>
+          <a id="basicStripeBtn" href="#" class="plan-btn disabled" tabindex="-1">Choose Basic Plan</a>
         </div>
       </div>
-      <div class="subscription-card featured">
+      
+      <div class="pricing-card featured">
         <div class="featured-badge">Most Popular</div>
         <div class="plan-header">
-          <h3>Business</h3>
+          <h3>Business Plan</h3>
           <div class="price">
             <span class="currency">$</span>
             <span class="amount">59</span>
@@ -58,25 +463,27 @@
         </div>
         <div class="plan-features">
           <ul>
-            <li>✓ Unlimited customers</li>
-            <li>✓ Advanced route optimization with AI</li>
-            <li>✓ Complete accounting suite</li>
-            <li>✓ Team management (up to 5 users)</li>
-            <li>✓ Priority phone & email support</li>
-            <li>✓ Custom reporting & analytics</li>
-            <li>✓ API access for integrations</li>
-            <li>✓ Advanced scheduling features</li>
+            <li>Unlimited customers</li>
+            <li>Advanced AI route optimization</li>
+            <li>Complete accounting suite</li>
+            <li>Team management (up to 5 users)</li>
+            <li>Priority phone & email support</li>
+            <li>Custom reporting & analytics</li>
+            <li>API access for integrations</li>
+            <li>Advanced scheduling features</li>
           </ul>
         </div>
         <div class="plan-action">
-          <a id="businessStripeBtn" href="#" class="btn primary disabled" tabindex="-1">Buy Business Plan</a>
+          <a id="businessStripeBtn" href="#" class="plan-btn disabled" tabindex="-1">Choose Business Plan</a>
         </div>
       </div>
     </div>
-    <div class="subscription-footer">
-      <p>🔒 All plans include a 14-day free trial • Cancel anytime • No setup fees</p>
+    
+    <!-- Pricing Footer -->
+    <div class="pricing-footer">
+      <p><span class="icon">🔒</span> All plans include a 14-day free trial <span class="icon">•</span> Cancel anytime <span class="icon">•</span> No setup fees</p>
     </div>
-  </section>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -94,7 +501,7 @@
       document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
       document.getElementById('signOutLink').style.display = isLoggedIn ? 'inline' : 'none';
 
-      // Stripe buttons logic
+      // Enable/disable subscription buttons based on auth status
       const basicBtn = document.getElementById('basicStripeBtn');
       const businessBtn = document.getElementById('businessStripeBtn');
       if (isLoggedIn) {
@@ -102,19 +509,23 @@
         basicBtn.setAttribute('href', 'https://buy.stripe.com/test_eVq9AT3Zl54C1IK5jyc7u00');
         basicBtn.setAttribute('target', '_blank');
         basicBtn.removeAttribute('tabindex');
+        basicBtn.textContent = 'Choose Basic Plan';
         businessBtn.classList.remove('disabled');
         businessBtn.setAttribute('href', 'https://buy.stripe.com/test_14AaEXgM7dB8fzA5jyc7u01');
         businessBtn.setAttribute('target', '_blank');
         businessBtn.removeAttribute('tabindex');
+        businessBtn.textContent = 'Choose Business Plan';
       } else {
         basicBtn.classList.add('disabled');
         basicBtn.setAttribute('href', '#');
         basicBtn.removeAttribute('target');
         basicBtn.setAttribute('tabindex', '-1');
+        basicBtn.textContent = 'Sign In to Subscribe';
         businessBtn.classList.add('disabled');
         businessBtn.setAttribute('href', '#');
         businessBtn.removeAttribute('target');
         businessBtn.setAttribute('tabindex', '-1');
+        businessBtn.textContent = 'Sign In to Subscribe';
       }
     }
     updateNavLinks();
