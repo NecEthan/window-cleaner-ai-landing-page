@@ -512,12 +512,33 @@
     }
     updateNavLinksAndActions();
 
-    document.getElementById('signOutBtn').addEventListener('click', async function() {
-      if (window.supabase) {
-        await window.supabase.auth.signOut();
+    // Ensure DOM is loaded before adding event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function() {
+          console.log('Sign out button clicked'); // Debug log
+          
+          if (window.supabase) {
+            await window.supabase.auth.signOut();
+          }
+          
+          // Remove access token from localStorage
+          localStorage.removeItem('access_token');
+          console.log('Access token removed from localStorage'); // Debug log
+          
+          // Update UI to show login/register buttons and hide sign out
+          document.getElementById('registerLink').style.display = 'inline';
+          document.getElementById('loginLink').style.display = 'inline';
+          document.getElementById('signOutLink').style.display = 'none';
+          
+          // Show register links in subscription plans
+          const planActions = document.querySelectorAll('.plan-action a[href="register.html"]');
+          planActions.forEach(a => { a.style.display = 'inline-block'; });
+          
+          console.log('UI updated after sign out'); // Debug log
+        });
       }
-      localStorage.removeItem('access_token');
-      window.location.href = 'login.html';
     });
   </script>
 <body>
