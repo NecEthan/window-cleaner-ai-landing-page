@@ -63,24 +63,36 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      document.getElementById('loginMessage').textContent = '';
+      document.getElementById('loginMessage').textContent = 'Signing in...';
 
-      const { data, error } = await window.supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      try {
+        // Sign in with Supabase first
+        const { data, error } = await window.supabase.auth.signInWithPassword({
+          email,
+          password
+        });
 
-      if (error) {
-        document.getElementById('loginMessage').textContent = error.message;
-      } else {
-        // Save token to localStorage if needed
+        if (error) {
+          document.getElementById('loginMessage').textContent = 'Login failed: ' + error.message;
+          console.error('Login error:', error.message);
+          return;
+        }
+
+        // Save access token to localStorage
         if (data.session && data.session.access_token) {
           localStorage.setItem('access_token', data.session.access_token);
+          console.log('Access token saved:', data.session.access_token);
         }
-        document.getElementById('loginMessage').textContent = 'Login successful!';
-        setTimeout(() => {
-          window.location.href = "business-details.html";
-        }, 1200);
+
+        // Set user as authenticated
+        console.log('Login successful:', data);
+        
+        // Navigate to business details page after successful authentication
+        window.location.href = "business-details.html";
+
+      } catch (err) {
+        document.getElementById('loginMessage').textContent = 'Login failed: Network error';
+        console.error('Login failed:', err);
       }
     });
   </script>

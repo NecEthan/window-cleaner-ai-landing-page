@@ -83,8 +83,8 @@
       e.preventDefault();
 
       // Collect form data
-  const name = document.getElementById('businessName').value;
-  const email = document.getElementById('businessEmail').value;
+      const name = document.getElementById('businessName').value;
+      const email = document.getElementById('businessEmail').value;
       const phone = document.getElementById('businessPhone').value;
       const address = document.getElementById('businessAddress').value;
       const sort_code = document.getElementById('sortCode').value;
@@ -103,34 +103,37 @@
         return;
       }
 
-      // Send POST request to Express backend with token in Authorization header
-      const response = await fetch('http://localhost:3000/api/user/business/details', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({
-        name,
-        email,
-          phone,
-          address,
-          sort_code,
-          account_number,
-          logo_url
-        })
-      });
+      // Navigate instantly to subscription page
+      window.location.href = "subscription.html";
 
+      // Continue saving details in the background
+      try {
+        const response = await fetch('http://localhost:3000/api/user/business/details', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            address,
+            sort_code,
+            account_number,
+            logo_url
+          })
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (result.success) {
-        document.getElementById('businessDetailsMessage').textContent = 'Business details saved!';
-        setTimeout(function() {
-          window.location.href = "subscription.html";
-        }, 1200);
-      } else {
-        document.getElementById('businessDetailsMessage').textContent = 'Error: ' + (result.error || 'Could not save details');
+        if (result.success) {
+          console.log('Business details saved successfully:', result);
+        } else {
+          console.error('Error saving business details:', result.error || 'Could not save details');
+        }
+      } catch (error) {
+        console.error('Failed to save business details:', error);
       }
     });
   </script>

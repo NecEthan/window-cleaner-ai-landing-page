@@ -74,23 +74,28 @@
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
+        // Navigate instantly to the sign in page
+        window.location.href = "login.html";
+
+        // Continue registration in the background (optional)
         document.getElementById('registerMessage').textContent = '';
 
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { name }
-          }
-        });
+        try {
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { name }
+            }
+          });
 
-        if (error) {
-          document.getElementById('registerMessage').textContent = error.message;
-        } else {
-          document.getElementById('registerMessage').textContent = 'Account created! Please check your email to confirm, then sign in.';
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2000);
+          if (error) {
+            console.error('Registration error:', error.message);
+          } else {
+            console.log('Registration successful:', data);
+          }
+        } catch (err) {
+          console.error('Registration failed:', err);
         }
       });
     };
