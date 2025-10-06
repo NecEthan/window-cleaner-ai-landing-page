@@ -204,7 +204,8 @@
       margin-bottom: 8px;
       opacity: 0.9;
     }
-    .business-form input{
+    .business-form input,
+    .business-form select{
       padding: 16px 20px;
       border-radius: 12px;
       border: 2px solid rgba(24, 53, 82, 0.6);
@@ -216,7 +217,8 @@
       font-family: inherit;
       backdrop-filter: blur(8px);
     }
-    .business-form input:focus{
+    .business-form input:focus,
+    .business-form select:focus{
       border-color: var(--brand);
       background: rgba(14, 35, 61, 0.7);
       box-shadow: 0 0 0 4px rgba(16, 195, 201, 0.15);
@@ -225,6 +227,11 @@
     .business-form input::placeholder{
       color: rgba(159, 177, 198, 0.6);
       font-style: italic;
+    }
+    .business-form select option{
+      background: rgba(14, 35, 61, 0.9);
+      color: var(--text);
+      padding: 12px;
     }
     .business-form input[type="file"]{
       padding: 12px 16px;
@@ -379,6 +386,19 @@
           </div>
           
           <div class="form-group">
+            <label for="serviceType">Service Type</label>
+            <select id="serviceType" required>
+              <option value="">Select service type</option>
+              <option value="window_cleaner">Window Cleaner</option>
+              <option value="cleaner">Cleaner</option>
+              <option value="cleaner">Dog walkers</option>
+              <option value="cleaner">Gardner</option>
+              <option value="cleaner">Pool Maintenance</option>
+              <option value="cleaner">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
             <label for="businessAddress">Business Address</label>
             <input type="text" id="businessAddress" placeholder="Enter business address" required>
           </div>
@@ -455,6 +475,7 @@
       const name = document.getElementById('businessName').value;
       const email = document.getElementById('businessEmail').value;
       const phone = document.getElementById('businessPhone').value;
+      const service_type = document.getElementById('serviceType').value;
       const address = document.getElementById('businessAddress').value;
       const sort_code = document.getElementById('sortCode').value;
       const account_number = document.getElementById('accountNumber').value;
@@ -474,37 +495,49 @@
 
       showMessage('Saving your business details...', 'success');
 
-      // Navigate instantly to subscription page
-      window.location.href = "subscription.html";
-
-      // Continue saving details in the background
+      // Save to Supabase business_details table
       try {
-        const response = await fetch('http://localhost:3000/api/user/business/details', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            phone,
-            address,
-            sort_code,
-            account_number,
-            logo_url
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          console.log('Business details saved successfully:', result);
-        } else {
-          console.error('Error saving business details:', result.error || 'Could not save details');
+        // Get current user
+        const { data: { user }, error: userError } = await window.supabase.auth.getUser();
+        
+        if (userError || !user) {
+          showMessage('User not authenticated. Please sign in again.', 'error');
+          return;
         }
+
+        // Save business details to database
+        const { data, error } = await window.supabase
+          .from('business_details')
+          .upsert({
+            user_id: user.id,
+            name: name,
+            email: email,
+            phone: phone,
+            service: service_type,
+            address: address,
+            sort_code: sort_code,
+            account_number: account_number,
+            logo_url: logo_url
+          }, {
+            onConflict: 'user_id'
+          });
+
+        if (error) {
+          console.error('Error saving business details to database:', error);
+          showMessage('Error saving business details: ' + error.message, 'error');
+          return;
+        }
+
+        console.log('Business details saved successfully to database:', data);
+        
+        // Navigate to subscription page after successful save
+        setTimeout(() => {
+          window.location.href = "subscription.html";
+        }, 1000);
+
       } catch (error) {
         console.error('Failed to save business details:', error);
+        showMessage('Failed to save business details: ' + error.message, 'error');
       }
     });
   </script>
