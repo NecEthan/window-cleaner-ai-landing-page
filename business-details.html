@@ -1,53 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business Details - ClearRoute AI</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Business Details - LuxRoute</title>
+  <meta name="description" content="Complete your LuxRoute business profile to get started with AI-powered route optimization." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root{
+      --bg-start:#071223;
+      --bg-end:#0b2139;
+      --text:#e9f1ff;
+      --muted:#9fb1c6;
+      --brand:#10c3c9;
+      --brand-strong:#0fb2b8;
+      --card:#0e233d;
+      --line:#183552;
+      --success:#19d27c;
+      --danger:#ff5c6c;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(-45deg, #000000, #0a0a0a, #111111, #0d0d0d);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      min-height: 100vh;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 20px;
+      width: 100%;
+    }
+
+    /* Header Styles */
+    .navbar{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 24px 0;
+      animation: fadeInDown 1s ease-out;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-header{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .navbar img.logo{
+      width:50px; 
+      height:50px; 
+      display:block;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+      transition: transform 0.3s ease;
+    }
+    .navbar img.logo:hover{
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .brand-text{
+      display:flex; 
+      flex-direction:column; 
+      gap:2px;
+    }
+    .brand-name{
+      font-weight:800; 
+      letter-spacing:0.8px; 
+      font-size:1.3rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand-tagline{
+      font-size:0.8rem; 
+      color:var(--brand); 
+      text-transform:uppercase; 
+      letter-spacing:0.15em;
+      font-weight: 600;
+    }
+
+    .nav-links{
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-links a{
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .nav-links a:hover, .nav-links a.active{
+      color: var(--brand);
+    }
+    .nav-links a.active::after{
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand);
+      border-radius: 1px;
+    }
+    .nav-btn{
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: #00131f;
+      border: 0;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .nav-btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+    }
+
+    .business-hero{
+      margin-top: 60px;
+      text-align: center;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .business-hero h1{
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      margin: 0 0 16px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text), var(--brand));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .business-hero p{
+      margin: 0 0 40px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .business-form-container{
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 40px 32px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+    .business-form-container:hover{
+      transform: translateY(-2px);
+    }
+
+    .business-form{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .business-form .form-group{
+      display: flex;
+      flex-direction: column;
+    }
+    .business-form .form-group.full-width{
+      grid-column: 1 / -1;
+    }
+    .business-form label{
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+    .business-form input{
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid rgba(24, 53, 82, 0.6);
+      background: rgba(14, 35, 61, 0.4);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      backdrop-filter: blur(8px);
+    }
+    .business-form input:focus{
+      border-color: var(--brand);
+      background: rgba(14, 35, 61, 0.7);
+      box-shadow: 0 0 0 4px rgba(16, 195, 201, 0.15);
+      transform: translateY(-1px);
+    }
+    .business-form input::placeholder{
+      color: rgba(159, 177, 198, 0.6);
+      font-style: italic;
+    }
+    .business-form input[type="file"]{
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+    .business-form input[type="file"]::-webkit-file-upload-button{
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: #00131f;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 12px;
+    }
+
+    .business-btn{
+      grid-column: 1 / -1;
+      padding: 16px 32px;
+      border-radius: 12px;
+      border: 0;
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: #00131f;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(16, 195, 201, 0.4);
+      font-size: 1rem;
+      text-transform: uppercase;
+      margin-top: 8px;
+      justify-self: center;
+      width: fit-content;
+      min-width: 200px;
+    }
+    .business-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 195, 201, 0.6);
+      background: linear-gradient(135deg, var(--brand-strong), var(--brand));
+    }
+    .business-btn:active{
+      transform: translateY(0px);
+    }
+
+    .business-message{
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+    }
+    .business-message.success{
+      background: rgba(25, 210, 124, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(25, 210, 124, 0.3);
+      display: block;
+    }
+    .business-message.error{
+      background: rgba(255, 92, 108, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(255, 92, 108, 0.3);
+      display: block;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+      .navbar { 
+        flex-direction: column; 
+        text-align: center; 
+        gap: 16px;
+        padding: 20px 0;
+      }
+      .nav-links { 
+        gap: 20px; 
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .business-hero { margin-top: 40px; }
+      .business-form-container { 
+        padding: 28px 20px; 
+        margin: 0 10px;
+      }
+      .business-form { 
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .business-form input { 
+        padding: 18px 16px; 
+        font-size: 16px; 
+      }
+      .business-btn { 
+        padding: 18px 24px; 
+        font-size: 1rem;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 12px; }
+      .navbar { padding: 16px 0; }
+      .brand-name { font-size: 1.1rem; }
+      .brand-tagline { font-size: 0.75rem; }
+      .business-form-container { 
+        padding: 24px 16px; 
+        margin: 0 5px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="navbar">
-  <a href="home.html" class="logo">ClearRoute AI</a>
-    <nav>
+  <div class="container">
+    <!-- Header -->
+    <nav class="navbar">
+      <div class="brand-header">
+        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=luxroute&backgroundColor=10c3c9&backgroundType=gradientLinear" 
+             alt="LuxRoute Logo" class="logo">
+        <div class="brand-text">
+          <div class="brand-name">LuxRoute</div>
+          <div class="brand-tagline">Smart Service Routes</div>
+        </div>
+      </div>
       <ul class="nav-links" id="navLinks">
-        <li><a href="home.html">Home</a></li>
-        <li id="registerLink"><a href="register.html">Register</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="home.html">Dashboard</a></li>
+        <li id="registerLink"><a href="register.html">Sign Up</a></li>
         <li id="loginLink"><a href="login.html">Sign In</a></li>
-        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn">Sign Out</button></li>
+        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="nav-btn">Sign Out</button></li>
       </ul>
     </nav>
-  </header>
 
-  <section class="auth-section">
-  <h2>Business Details</h2>
-    <form id="businessDetailsForm">
-  <label for="businessName">Business Name</label>
-  <input type="text" id="businessName" placeholder="Business Name" required>
-
-  <label for="businessEmail">Business Email</label>
-  <input type="email" id="businessEmail" placeholder="Business Email" required>
-
-  <label for="businessPhone">Phone Number</label>
-  <input type="tel" id="businessPhone" placeholder="Phone Number" required>
-
-  <label for="businessAddress">Business Address</label>
-  <input type="text" id="businessAddress" placeholder="Business Address" required>
-
-  <label for="sortCode">Sort Code</label>
-  <input type="text" id="sortCode" placeholder="12-34-56" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
-
-  <label for="accountNumber">Account Number</label>
-  <input type="text" id="accountNumber" placeholder="12345678" pattern="[0-9]{8}" required>
-
-  <label for="businessLogo">Business Logo</label>
-  <input type="file" id="businessLogo" accept="image/*">
-
-  <button type="submit" class="btn primary">Save Details</button>
-    </form>
-    <div id="businessDetailsMessage"></div>
-  </section>
+    <!-- Business Details Hero Section -->
+    <div class="business-hero">
+      <h1>Complete Your Profile</h1>
+      <p>Provide your business details to unlock the full potential of LuxRoute's AI-powered route optimization and get personalized service recommendations.</p>
+      
+      <div class="business-form-container">
+        <form id="businessDetailsForm" class="business-form">
+          <div class="form-group">
+            <label for="businessName">Business Name</label>
+            <input type="text" id="businessName" placeholder="Enter your business name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="businessEmail">Business Email</label>
+            <input type="email" id="businessEmail" placeholder="Enter business email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="businessPhone">Phone Number</label>
+            <input type="tel" id="businessPhone" placeholder="Enter phone number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="businessAddress">Business Address</label>
+            <input type="text" id="businessAddress" placeholder="Enter business address" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="sortCode">Sort Code</label>
+            <input type="text" id="sortCode" placeholder="12-34-56" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="accountNumber">Account Number</label>
+            <input type="text" id="accountNumber" placeholder="12345678" pattern="[0-9]{8}" required>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="businessLogo">Business Logo (Optional)</label>
+            <input type="file" id="businessLogo" accept="image/*">
+          </div>
+          
+          <button type="submit" class="business-btn">Save Details & Continue</button>
+        </form>
+        
+        <div id="businessMessage" class="business-message"></div>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Initialize Supabase client (only once)
@@ -79,6 +437,18 @@
       window.location.href = 'login.html';
     });
 
+    function showMessage(text, type = 'error') {
+      const messageEl = document.getElementById('businessMessage');
+      messageEl.textContent = text;
+      messageEl.className = `business-message ${type}`;
+      messageEl.style.display = 'block';
+    }
+
+    function hideMessage() {
+      const messageEl = document.getElementById('businessMessage');
+      messageEl.style.display = 'none';
+    }
+
     document.getElementById('businessDetailsForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -99,9 +469,11 @@
       // Get access token from localStorage
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
-        document.getElementById('businessDetailsMessage').textContent = 'User not authenticated.';
+        showMessage('User not authenticated. Please sign in again.', 'error');
         return;
       }
+
+      showMessage('Saving your business details...', 'success');
 
       // Navigate instantly to subscription page
       window.location.href = "subscription.html";
