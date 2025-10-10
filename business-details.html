@@ -470,6 +470,7 @@
 
     document.getElementById('businessDetailsForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+      console.log('---------')
 
       // Collect form data
       const name = document.getElementById('businessName').value;
@@ -504,7 +505,7 @@
           showMessage('User not authenticated. Please sign in again.', 'error');
           return;
         }
-
+        console.log('save')
         // Save business details to database
         const { data, error } = await window.supabase
           .from('business_details')

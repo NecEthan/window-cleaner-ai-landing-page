@@ -430,6 +430,7 @@
 
       // Continue registration in the background
       try {
+        console.log('Registering user:', { name, email });
         const { data, error } = await window.supabase.auth.signUp({
           email,
           password,
