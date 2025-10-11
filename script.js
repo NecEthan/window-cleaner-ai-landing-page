@@ -1,5 +1,6 @@
 // Replace with your backend URL
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'https://route-optimiser-production.up.railway.app';
+// const API_BASE = 'http://localhost:3000';
 // const API_BASE = 'https://da45395e7876.ngrok-free.app';
 
 let isLogin = true;

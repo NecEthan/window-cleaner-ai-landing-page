@@ -488,7 +488,7 @@
           try {
             const accessToken = localStorage.getItem('access_token');
             // const response = await fetch('https://da45395e7876.ngrok-free.app/api/user/business/details', {
-            const response = await fetch('http://localhost:3000/api/user/business/details', {
+            const response = await fetch('https://route-optimiser-production.up.railway.app/api/user/business/details', {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${accessToken}`
