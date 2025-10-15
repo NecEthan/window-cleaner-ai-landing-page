@@ -382,7 +382,7 @@
           
           <div class="form-group">
             <label for="businessPhone">Phone Number</label>
-            <input type="tel" id="businessPhone" placeholder="Enter phone number" required>
+            <input type="tel" id="businessPhone" placeholder="Enter phone number" value="+44 " required>
           </div>
           
           <div class="form-group">
@@ -456,6 +456,63 @@
       window.location.href = 'login.html';
     });
 
+    // Phone number formatting functionality
+    const phoneInput = document.getElementById('businessPhone');
+    
+    // Handle focus event to position cursor after +44 
+    phoneInput.addEventListener('focus', function(e) {
+      if (e.target.value === '+44 ') {
+        e.target.setSelectionRange(5, 5); // Position cursor after +44 
+      }
+    });
+    
+    phoneInput.addEventListener('input', function(e) {
+      let value = e.target.value;
+      let cursorPosition = e.target.selectionStart;
+      
+      // If user is trying to delete the +44 prefix, restore it
+      if (value.length < 5 && !value.startsWith('+44 ')) {
+        e.target.value = '+44 ';
+        e.target.setSelectionRange(5, 5);
+        return;
+      }
+      
+      // Extract only the digits after +44 
+      let digitsOnly = value.substring(4).replace(/\D/g, '');
+      
+      // Prevent entering numbers starting with 07
+      if (digitsOnly.startsWith('07')) {
+        digitsOnly = digitsOnly.substring(2); // Remove the 07
+        showMessage('Please enter your phone number without the 07 prefix. We will automatically add +44.', 'error');
+        setTimeout(hideMessage, 3000);
+      }
+      
+      // Format the number with +44 prefix and space
+      e.target.value = '+44 ' + digitsOnly;
+      
+      // Maintain cursor position
+      if (cursorPosition <= 4) {
+        e.target.setSelectionRange(5, 5);
+      } else {
+        let newCursorPos = Math.min(cursorPosition, e.target.value.length);
+        e.target.setSelectionRange(newCursorPos, newCursorPos);
+      }
+    });
+    
+    phoneInput.addEventListener('keydown', function(e) {
+      // Prevent typing 0 at the beginning
+      if (e.target.selectionStart <= 4 && e.key === '0') {
+        e.preventDefault();
+        showMessage('Please enter your phone number without the 0 prefix. We will automatically add +44.', 'error');
+        setTimeout(hideMessage, 3000);
+      }
+      
+      // Prevent backspace from deleting +44 prefix
+      if (e.key === 'Backspace' && e.target.selectionStart <= 4) {
+        e.preventDefault();
+      }
+    });
+
     function showMessage(text, type = 'error') {
       const messageEl = document.getElementById('businessMessage');
       messageEl.textContent = text;
@@ -475,7 +532,20 @@
       // Collect form data
       const name = document.getElementById('businessName').value;
       const email = document.getElementById('businessEmail').value;
-      const phone = document.getElementById('businessPhone').value;
+      let phone = document.getElementById('businessPhone').value;
+      
+      // Remove +44 prefix and space for processing
+      if (phone.startsWith('+44 ')) {
+        phone = phone.substring(4);
+      }
+      
+      // Remove any remaining spaces or special characters
+      phone = phone.replace(/[\s\-\(\)]/g, '');
+      
+      // Add +44 prefix for storage
+      if (phone.length > 0) {
+        phone = '+44' + phone;
+      }
       const service_type = document.getElementById('serviceType').value;
       const address = document.getElementById('businessAddress').value;
       const sort_code = document.getElementById('sortCode').value;
