@@ -53,10 +53,23 @@
       display:flex;
       align-items:center;
       justify-content: space-between;
-      padding: 24px 0;
+      padding: 20px;
       animation: fadeInDown 1s ease-out;
       flex-wrap: wrap;
       gap: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(24, 53, 82, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .navbar nav{
+      display: flex;
+      align-items: center;
     }
 
     @keyframes fadeInDown {
@@ -110,6 +123,10 @@
       gap: 32px;
       align-items: center;
     }
+    .nav-links li{
+      display: flex;
+      align-items: center;
+    }
     .nav-links a{
       color: var(--muted);
       text-decoration: none;
@@ -130,6 +147,85 @@
       background: var(--brand);
       border-radius: 1px;
     }
+    /* Mobile Menu Toggle */
+    .menu-toggle{
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+      width: 30px;
+      height: 30px;
+      position: relative;
+    }
+    .menu-toggle span{
+      width: 25px;
+      height: 3px;
+      background: var(--brand);
+      border-radius: 3px;
+      transition: all 0.3s ease;
+      display: block;
+      position: absolute;
+      left: 50%;
+      margin-left: -12.5px;
+    }
+    .menu-toggle span:nth-child(1){
+      top: 6px;
+    }
+    .menu-toggle span:nth-child(2){
+      top: 13.5px;
+    }
+    .menu-toggle span:nth-child(3){
+      top: 21px;
+    }
+    .menu-toggle.active span:nth-child(1){
+      top: 13.5px;
+      transform: rotate(45deg);
+    }
+    .menu-toggle.active span:nth-child(2){
+      opacity: 0;
+      width: 0;
+    }
+    .menu-toggle.active span:nth-child(3){
+      top: 13.5px;
+      transform: rotate(-45deg);
+    }
+    .btn, .btn-outline{
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      border: 0;
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: #00131f;
+      box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+    }
+    .btn.primary:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 195, 201, 0.4);
+    }
+    .btn-outline{
+      background: transparent;
+      color: var(--brand);
+      border: 2px solid var(--brand);
+    }
+    .btn-outline:hover{
+      background: var(--brand);
+      color: #00131f;
+      transform: translateY(-1px);
+    }
     .nav-btn{
       background: linear-gradient(135deg, var(--brand), var(--brand-strong));
       color: #00131f;
@@ -146,7 +242,7 @@
     }
 
     .auth-hero{
-      margin-top: 60px;
+      margin-top: 120px;
       text-align: center;
       max-width: 480px;
       margin-left: auto;
@@ -173,7 +269,7 @@
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--line);
       border-radius: 20px;
-      padding: 40px 32px;
+      padding: 40px 36px;
       backdrop-filter: blur(10px);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       transition: transform 0.3s ease;
@@ -185,7 +281,12 @@
     .auth-form{
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
+    }
+    .auth-form > div{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
     .auth-form label{
       color: var(--text);
@@ -193,11 +294,13 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin: 0;
       opacity: 0.9;
+      display: block;
     }
     .auth-form input{
-      padding: 16px 20px;
+      width: 100%;
+      padding: 14px 18px;
       border-radius: 12px;
       border: 2px solid rgba(24, 53, 82, 0.6);
       background: rgba(14, 35, 61, 0.4);
@@ -207,6 +310,7 @@
       transition: all 0.3s ease;
       font-family: inherit;
       backdrop-filter: blur(8px);
+      box-sizing: border-box;
     }
     .auth-form input:focus{
       border-color: var(--brand);
@@ -220,7 +324,8 @@
     }
 
     .auth-btn{
-      padding: 16px 32px;
+      width: 100%;
+      padding: 14px 32px;
       border-radius: 12px;
       border: 0;
       background: linear-gradient(135deg, var(--brand), var(--brand-strong));
@@ -232,7 +337,8 @@
       box-shadow: 0 6px 20px rgba(16, 195, 201, 0.4);
       font-size: 1rem;
       text-transform: uppercase;
-      margin-top: 8px;
+      margin-top: 4px;
+      box-sizing: border-box;
     }
     .auth-btn:hover{
       transform: translateY(-2px);
@@ -285,24 +391,76 @@
     @media (max-width: 768px) {
       .container { padding: 0 16px; }
       .navbar { 
-        flex-direction: column; 
-        text-align: center; 
-        gap: 16px;
-        padding: 20px 0;
+        flex-wrap: nowrap;
+        padding: 16px 20px;
+        gap: 12px;
+      }
+      .brand-header {
+        flex: 1;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+      .navbar nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(14, 35, 61, 0.98);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid var(--line);
+        border-radius: 0;
+        padding: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 999;
+        margin-top: 0;
+      }
+      .navbar nav.active {
+        max-height: 500px;
+        opacity: 1;
+        margin-top: 0;
       }
       .nav-links { 
-        gap: 20px; 
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-direction: column;
+        gap: 16px; 
+        width: 100%;
+        align-items: stretch;
       }
-      .auth-hero { margin-top: 40px; }
+      .nav-links li {
+        width: 100%;
+      }
+      .nav-links a,
+      .nav-links button {
+        display: block;
+        width: 100%;
+        padding: 12px 16px;
+        text-align: center;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+      .nav-links a:hover {
+        background: rgba(16, 195, 201, 0.1);
+      }
+      .nav-links .btn.primary {
+        width: 100%;
+      }
+      .auth-hero { margin-top: 100px; }
       .auth-form-container { 
-        padding: 28px 20px; 
+        padding: 32px 24px; 
         margin: 0 10px;
       }
-      .auth-form { gap: 20px; }
+      .auth-form { 
+        gap: 18px; 
+      }
+      .auth-form > div {
+        gap: 6px;
+      }
       .auth-form input { 
-        padding: 18px 16px; 
+        padding: 14px 16px; 
         font-size: 16px; 
       }
       .auth-btn { 
@@ -313,11 +471,27 @@
 
     @media (max-width: 480px) {
       .container { padding: 0 12px; }
-      .navbar { padding: 16px 0; }
-      .brand-name { font-size: 1.1rem; }
-      .brand-tagline { font-size: 0.75rem; }
+      .navbar { 
+        padding: 12px 16px;
+        gap: 8px;
+      }
+      .brand-header {
+        gap: 12px;
+      }
+      .navbar img.logo {
+        width: 40px;
+        height: 40px;
+      }
+      .brand-name { font-size: 1rem; }
+      .brand-tagline { font-size: 0.7rem; }
+      .navbar nav {
+        padding: 16px;
+        left: 0;
+        right: 0;
+      }
+      .auth-hero { margin-top: 90px; }
       .auth-form-container { 
-        padding: 24px 16px; 
+        padding: 28px 20px; 
         margin: 0 5px;
       }
     }
@@ -325,23 +499,33 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
-    <nav class="navbar">
+    <!-- Navbar -->
+    <header class="navbar">
       <div class="brand-header">
-        <img src="logo.JPG" 
-             alt="LuxRoute Logo" class="logo">
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img class="logo" src="logo.JPG" alt="LuxRoute logo" />
+        </a>
         <div class="brand-text">
-          <div class="brand-name">LuxRoute</div>
-          <div class="brand-tagline">Smart Service Routes</div>
+          <a href="index.html" class="brand-name">LUXROUTE</a>
+          <div class="brand-tagline">SIMPLY SEAMLESS</div>
         </div>
       </div>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li id="registerLink"><a href="register.html" class="active">Sign Up</a></li>
-        <li id="loginLink"><a href="login.html">Sign In</a></li>
-        <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="nav-btn">Sign Out</button></li>
-      </ul>
-    </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#subscription">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li id="registerLink"><a href="register.html">Register</a></li>
+          <li id="loginLink"><a href="login.html">Sign In</a></li>
+          <li id="signOutLink" style="display:none;"><button id="signOutBtn" class="btn primary">Sign Out</button></li>
+        </ul>
+      </nav>
+      <a href="#subscription" class="btn-outline">Subscribe</a>
+    </header>
 
     <!-- Auth Hero Section -->
     <div class="auth-hero">
@@ -383,16 +567,39 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9uZWl4aXFkYWhjd2t0aWNrcGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzMTYwNDMsImV4cCI6MjA3Mzg5MjA0M30.xPljznEkOi9HTW0FugQ-ksLqUA91o7HTGRi069EN430';
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Show/hide nav links based on authentication status
+    // Navbar links never change - always show register and login
+    // Lock navbar links in place immediately and prevent any changes
+    function lockNavbarLinks() {
+      const registerLink = document.getElementById('registerLink');
+      const loginLink = document.getElementById('loginLink');
+      if (registerLink) {
+        registerLink.style.display = 'inline';
+        registerLink.style.setProperty('display', 'inline', 'important');
+      }
+      if (loginLink) {
+        loginLink.style.display = 'inline';
+        loginLink.style.setProperty('display', 'inline', 'important');
+      }
+    }
+    // Lock links immediately
+    lockNavbarLinks();
+    // Lock on DOM ready
+    document.addEventListener('DOMContentLoaded', lockNavbarLinks);
+    // Continuously ensure links stay visible (runs every 100ms)
+    setInterval(lockNavbarLinks, 100);
+
+    // Show/hide only sign out button based on authentication status
     async function updateNavLinks() {
       let isLoggedIn = false;
       if (window.supabase) {
         const { data: sessionData } = await window.supabase.auth.getSession();
         isLoggedIn = !!sessionData.session;
       }
-      document.getElementById('registerLink').style.display = isLoggedIn ? 'none' : 'inline';
-      document.getElementById('loginLink').style.display = isLoggedIn ? 'none' : 'inline';
-      document.getElementById('signOutLink').style.display = isLoggedIn ? 'inline' : 'none';
+      // Always keep register and login links visible - navbar structure never changes
+      lockNavbarLinks();
+      // Only update sign out button, never touch register/login links
+      const signOutLink = document.getElementById('signOutLink');
+      if (signOutLink) signOutLink.style.display = isLoggedIn ? 'inline' : 'none';
     }
     updateNavLinks();
 
@@ -401,8 +608,39 @@
         await window.supabase.auth.signOut();
       }
       localStorage.removeItem('access_token');
-            window.location.href = 'home.html';
+      window.location.href = 'index.html';
     });
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    const navLinks = document.querySelectorAll('.nav-links a, .nav-links button');
+    
+    if (menuToggle && mainNav) {
+      menuToggle.addEventListener('click', function() {
+        menuToggle.classList.toggle('active');
+        mainNav.classList.toggle('active');
+      });
+      
+      // Close menu when clicking on a link
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          menuToggle.classList.remove('active');
+          mainNav.classList.remove('active');
+        });
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const isClickInsideNav = mainNav.contains(event.target);
+        const isClickOnToggle = menuToggle.contains(event.target);
+        
+        if (!isClickInsideNav && !isClickOnToggle && mainNav.classList.contains('active')) {
+          menuToggle.classList.remove('active');
+          mainNav.classList.remove('active');
+        }
+      });
+    }
     function showMessage(text, type = 'error') {
       const messageEl = document.getElementById('authMessage');
       messageEl.textContent = text;
@@ -422,6 +660,12 @@
       const password = document.getElementById('password').value;
 
       showMessage('Creating your account...', 'success');
+
+      // Ensure navbar links stay visible before navigation
+      const registerLink = document.getElementById('registerLink');
+      const loginLink = document.getElementById('loginLink');
+      if (registerLink) registerLink.style.display = 'inline';
+      if (loginLink) loginLink.style.display = 'inline';
 
       // Navigate instantly to the sign in page
       setTimeout(() => {
