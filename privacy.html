@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - LuxRoute</title>
+  <meta name="description" content="Privacy Policy for the LuxRoute app and website, explaining how your data is collected, used, and protected.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-start:#071223;
+      --bg-end:#0b2139;
+      --text:#e9f1ff;
+      --muted:#9fb1c6;
+      --brand:#10c3c9;
+      --brand-strong:#0fb2b8;
+      --card:#0e233d;
+      --line:#183552;
+      --success:#19d27c;
+      --danger:#ff5c6c;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%; overflow-x:hidden;}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(-45deg, #000000, #0a0a0a, #111111, #0d0d0d);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    img, svg{
+      max-width: 100%;
+      height: auto;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 20px;
+      width: 100%;
+    }
+
+    /* Header / Navbar (simple static for policy page) */
+    .navbar{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .brand-header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+    .navbar img.logo{
+      width:44px;
+      height:44px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(16, 195, 201, 0.3);
+    }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .brand-name{
+      font-weight:800; 
+      letter-spacing:0.8px; 
+      font-size:1.2rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand-tagline{
+      font-size:0.75rem; 
+      color:var(--brand); 
+      text-transform:uppercase; 
+      letter-spacing:0.15em;
+      font-weight: 600;
+    }
+    .nav-links{
+      display:flex;
+      list-style:none;
+      gap:24px;
+      margin:0;
+      padding:0;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color: var(--muted);
+      text-decoration:none;
+      font-size:0.95rem;
+      font-weight:500;
+    }
+    .nav-links a:hover{
+      color:var(--brand);
+    }
+
+    /* Policy Layout */
+    .policy-shell{
+      padding: 40px 0 80px;
+    }
+    .policy-header{
+      max-width: 800px;
+      margin: 40px auto 32px;
+      text-align: left;
+    }
+    .policy-header h1{
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      margin: 0 0 16px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text), var(--brand));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .policy-header p{
+      margin:0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .policy-card{
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(14, 35, 61, 0.7);
+      border-radius: 20px;
+      border: 1px solid rgba(24, 53, 82, 0.7);
+      padding: 32px 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      backdrop-filter: blur(14px);
+    }
+    .policy-card h2{
+      font-size: 1.3rem;
+      margin: 24px 0 10px;
+    }
+    .policy-card h3{
+      font-size: 1.05rem;
+      margin: 18px 0 6px;
+    }
+    .policy-card p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .policy-card ul{
+      margin: 0 0 10px 18px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .policy-card li{
+      margin-bottom: 6px;
+    }
+    .policy-meta{
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    .site-footer{
+      border-top: 1px solid var(--line);
+      padding: 24px 0 32px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .site-footer-inner{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-links{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .footer-links a{
+      color: var(--muted);
+      text-decoration:none;
+      font-size:0.9rem;
+    }
+    .footer-links a:hover{
+      color: var(--brand);
+    }
+
+    @media (max-width: 768px){
+      .navbar{
+        flex-direction: column;
+        align-items:flex-start;
+        padding: 16px 0;
+      }
+      .policy-shell{
+        padding: 24px 0 60px;
+      }
+      .policy-card{
+        padding: 24px 18px;
+      }
+      .site-footer-inner{
+        padding: 0 16px;
+        flex-direction: column;
+        align-items:flex-start;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px){
+      .container{
+        padding: 0 16px;
+      }
+      .policy-header{
+        margin-top: 24px;
+      }
+      .policy-card{
+        padding: 20px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="navbar">
+      <div class="brand-header">
+        <a href="index.html" style="display:flex;align-items:center;text-decoration:none;">
+          <img class="logo" src="logo.JPG" alt="LuxRoute logo" />
+        </a>
+        <div class="brand-text">
+          <a href="index.html" class="brand-name">LUXROUTE</a>
+          <div class="brand-tagline">SIMPLY SEAMLESS</div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="subscription.html">Pricing</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="login.html">Sign In</a></li>
+      </ul>
+    </header>
+
+    <main class="policy-shell">
+      <div class="policy-header">
+        <h1>Privacy Policy</h1>
+        <p>
+          This Privacy Policy explains how LuxRoute (“we”, “us”, “our”) collects, uses, and protects your
+          information when you use our mobile applications, web application, and website
+          (together, the “Services”).
+        </p>
+      </div>
+
+      <section class="policy-card">
+        <h2>1. Who we are</h2>
+        <p>
+          LuxRoute is a service route optimization and business management platform for service providers.
+          LuxRoute is a product of NexumSpace Limited, registered in England &amp; Wales.
+        </p>
+
+        <h2>2. Information we collect</h2>
+        <h3>2.1 Information you provide to us</h3>
+        <p>We collect the information you provide directly, including:</p>
+        <ul>
+          <li>Account details such as name, email address, and password.</li>
+          <li>Business details such as company name, service areas, customer information, and job data.</li>
+          <li>Communication content when you contact us (e.g. via contact forms, waitlist forms, or support).</li>
+        </ul>
+
+        <h3>2.2 Information collected automatically</h3>
+        <p>
+          When you use the Services, we may automatically collect:
+        </p>
+        <ul>
+          <li>Device and technical data (e.g. device type, operating system, browser type, IP address).</li>
+          <li>Usage data (e.g. pages viewed, features used, access times, referring pages).</li>
+        </ul>
+
+        <h3>2.3 Payment information</h3>
+        <p>
+          When you purchase a subscription, payments are processed securely by third‑party payment providers
+          such as Stripe. We do not store your full payment card details on our servers. These providers
+          may collect payment card information and billing details directly in accordance with their own
+          privacy policies.
+        </p>
+
+        <h2>3. How we use your information</h2>
+        <p>We use your information to:</p>
+        <ul>
+          <li>Create and manage your account and provide the core LuxRoute services.</li>
+          <li>Optimize routes, manage schedules, jobs, and customer data as part of the service.</li>
+          <li>Process subscriptions and payments.</li>
+          <li>Communicate with you, including service notifications and responses to your enquiries.</li>
+          <li>Maintain and improve the performance, security, and reliability of the Services.</li>
+          <li>Comply with legal obligations and enforce our terms.</li>
+        </ul>
+
+        <h2>4. Legal bases for processing (EEA/UK users)</h2>
+        <p>
+          Where applicable (for example in the EEA or UK), we process your personal data on the following legal bases:
+        </p>
+        <ul>
+          <li><strong>Performance of a contract</strong> – to provide and operate the Services you sign up for.</li>
+          <li><strong>Legitimate interests</strong> – such as securing and improving our Services and preventing abuse.</li>
+          <li><strong>Consent</strong> – for certain communications or optional features, where required by law.</li>
+        </ul>
+
+        <h2>5. How we share your information</h2>
+        <p>
+          We do not sell your personal data. We may share your information with:
+        </p>
+        <ul>
+          <li>
+            <strong>Service providers / processors</strong> who help us operate the Services, such as:
+            authentication and database providers (for example, Supabase), hosting providers,
+            analytics or email service providers, and payment processors (for example, Stripe).
+          </li>
+          <li>
+            <strong>Business partners</strong> where needed to deliver features you use (for example, integrations you
+            choose to enable).
+          </li>
+          <li>
+            <strong>Authorities or legal recipients</strong> when required to comply with law, legal process, or to
+            protect rights, safety, and security.
+          </li>
+        </ul>
+        <p>
+          These third parties are only allowed to process your personal data on our instructions and must protect
+          it appropriately.
+        </p>
+
+        <h2>6. International transfers</h2>
+        <p>
+          Our Services may be provided using infrastructure located in different countries. As a result, your
+          information may be transferred to and processed in countries outside of your own, which may have
+          different data protection laws. Where required, we take appropriate safeguards (such as contractual
+          protections) to help ensure your data remains protected.
+        </p>
+
+        <h2>7. Data retention</h2>
+        <p>
+          We retain your information for as long as it is reasonably necessary to provide the Services, comply
+          with our legal obligations, resolve disputes, and enforce our agreements. When data is no longer needed,
+          we will delete or anonymise it in line with our retention practices.
+        </p>
+
+        <h2>8. Your rights and choices</h2>
+        <p>Depending on your location, you may have the right to:</p>
+        <ul>
+          <li>Access the personal data we hold about you.</li>
+          <li>Request correction of inaccurate or incomplete data.</li>
+          <li>Request deletion of your personal data, subject to legal obligations.</li>
+          <li>Object to or restrict certain processing, or withdraw consent where processing is based on consent.</li>
+        </ul>
+        <p>
+          To exercise these rights, please contact us using the details in the “Contact us” section below.
+          We may need to verify your identity before fulfilling your request.
+        </p>
+
+        <h2>9. Children’s privacy</h2>
+        <p>
+          LuxRoute is not directed to children and is intended for use by businesses and adult users.
+          We do not knowingly collect personal information from children under 13 (or under 16 where
+          applicable). If you believe a child has provided us with personal data, please contact us so
+          we can take appropriate action.
+        </p>
+
+        <h2>10. Security</h2>
+        <p>
+          We use reasonable technical and organisational measures to protect your information, including
+          access controls, encryption in transit where appropriate, and regular security reviews.
+          However, no system can be fully secure, and we cannot guarantee absolute security.
+        </p>
+
+        <h2>11. Third‑party links and services</h2>
+        <p>
+          Our Services may contain links to third‑party websites or services. Their privacy practices are
+          governed by their own policies, and we encourage you to review those policies before submitting
+          personal information.
+        </p>
+
+        <h2>12. Changes to this Privacy Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. When we do, we will revise the “Last updated”
+          date below. If we make material changes, we may provide additional notice (such as in‑app or on our
+          website). Your continued use of the Services after an update means you accept the revised Policy.
+        </p>
+
+        <h2>13. Contact us</h2>
+        <p>
+          If you have any questions or concerns about this Privacy Policy or how your data is handled, you can
+          contact us via the contact section on our website or at:
+        </p>
+        <p>
+          <strong>LuxRoute / NexumSpace Limited</strong><br>
+          Email: support@luxroute.app
+        </p>
+
+        <p class="policy-meta">
+          Last updated: 1 March 2026
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>© <span id="year"></span> LuxRoute. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+

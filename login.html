@@ -24,7 +24,7 @@
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%; overflow-x:hidden;}
     body{
       margin:0;
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -33,6 +33,7 @@
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     @keyframes gradient {
@@ -385,6 +386,37 @@
       display: block;
     }
 
+    /* Footer */
+    .site-footer{
+      border-top: 1px solid var(--line);
+      padding: 24px 0 32px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .site-footer-inner{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-links{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .footer-links a{
+      color: var(--muted);
+      text-decoration:none;
+    }
+    .footer-links a:hover{
+      color: var(--brand);
+    }
+
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .container { padding: 0 16px; }
@@ -554,6 +586,18 @@
     </div>
   </div>
 
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        © <span id="year"></span> LuxRoute. All rights reserved.
+      </div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
     // Initialize Supabase client
     const SUPABASE_URL = 'https://oneixiqdahcwktickplx.supabase.co';
@@ -691,6 +735,9 @@
         console.error('Login failed:', err);
       }
     });
+
+    // Set footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

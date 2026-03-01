@@ -561,6 +561,18 @@
     </div>
   </div>
 
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        © <span id="year"></span> LuxRoute. All rights reserved.
+      </div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
     // Initialize Supabase client
     const SUPABASE_URL = 'https://oneixiqdahcwktickplx.supabase.co';
@@ -692,6 +704,9 @@
         console.error('Registration failed:', err);
       }
     });
+
+    // Set footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

@@ -803,6 +803,37 @@
       display: block;
     }
 
+    /* Global footer */
+    .site-footer{
+      border-top: 1px solid var(--line);
+      padding: 32px 0 40px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .site-footer-inner{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-links{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .footer-links a{
+      color: var(--muted);
+      text-decoration:none;
+    }
+    .footer-links a:hover{
+      color: var(--brand);
+    }
+
     /* Footer */
     footer{
       padding: 60px 0 40px;
@@ -992,6 +1023,12 @@
         height: 40px;
         font-size: 0.9rem;
         padding: 10px 16px;
+      }
+      .site-footer-inner{
+        padding: 0 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
       }
     }
   </style>
@@ -1298,10 +1335,16 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-      <div>
-        <p>© <span id="year"></span> LuxRoute. All rights reserved.</p>
-        <p>LuxRoute is a product of <strong>NexumSpace Limited</strong>, registered in England & Wales.</p>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <div>
+          <p>© <span id="year"></span> LuxRoute. All rights reserved.</p>
+          <p>LuxRoute is a product of <strong>NexumSpace Limited</strong>, registered in England &amp; Wales.</p>
+        </div>
+        <div class="footer-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="#contact">Contact</a>
+        </div>
       </div>
     </footer>
   </div>
