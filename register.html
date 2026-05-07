@@ -673,18 +673,6 @@
 
       showMessage('Creating your account...', 'success');
 
-      // Ensure navbar links stay visible before navigation
-      const registerLink = document.getElementById('registerLink');
-      const loginLink = document.getElementById('loginLink');
-      if (registerLink) registerLink.style.display = 'inline';
-      if (loginLink) loginLink.style.display = 'inline';
-
-      // Navigate instantly to the sign in page
-      setTimeout(() => {
-        window.location.href = "login.html";
-      }, 500);
-
-      // Continue registration in the background
       try {
         console.log('Registering user:', { name, email });
         const { data, error } = await window.supabase.auth.signUp({
@@ -697,11 +685,32 @@
 
         if (error) {
           console.error('Registration error:', error.message);
+          showMessage(error.message || 'Could not create your account. Please try again.', 'error');
+          return;
+        }
+
+        // If session exists, Supabase has already signed the user in.
+        if (data?.session) {
+          showMessage('Account created. Redirecting to plans...', 'success');
+          window.location.href = 'subscription.html';
+          return;
+        }
+
+        // Fallback: try sign-in directly when email confirmation is not enforced.
+        const { error: signInError } = await window.supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (!signInError) {
+          showMessage('Account created. Redirecting to plans...', 'success');
+          window.location.href = 'subscription.html';
         } else {
-          console.log('Registration successful:', data);
+          showMessage('Account created. Please confirm your email, then sign in.', 'success');
         }
       } catch (err) {
         console.error('Registration failed:', err);
+        showMessage('Registration failed. Please try again.', 'error');
       }
     });
 
